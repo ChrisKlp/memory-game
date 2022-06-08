@@ -1,0 +1,45 @@
+import { createStitches } from '@stitches/react';
+
+export const {
+  styled,
+  css,
+  globalCss,
+  keyframes,
+  theme,
+  createTheme,
+  getCssText,
+  config,
+} = createStitches({
+  theme: {
+    colors: {
+      orange: '#FDA214',
+      blue100: '#BCCED9',
+      blue300: '#7191A5',
+      blue500: '#6395B8',
+      blue800: '#304859',
+      blue900: '#152938',
+      light: '#FCFCFC',
+      gray: '#F2F2F2',
+      white: '#FFFFFF',
+    },
+    // space: {},
+    // fontSizes: {},
+    // fonts: {},
+    // fontWeights: {},
+    // lineHeights: {},
+    // letterSpacings: {},
+    // sizes: {},
+    // borderWidths: {},
+    // borderStyles: {},
+    // radii: {},
+    // shadows: {},
+    // zIndices: {},
+    // transitions: {},
+  },
+  media: {
+    sm: '(min-width: 576px)',
+    md: '(min-width: 768px)',
+    lg: '(min-width: 1050px)',
+    xl: '(min-width: 1440px)',
+  },
+});
