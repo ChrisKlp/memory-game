@@ -4,6 +4,7 @@ const Button = styled('button', {
   display: 'block',
   padding: '1rem 1.85rem',
   fontSize: '1.6rem',
+  lineHeight: '2rem',
   fontWeight: 'bold',
   textAlign: 'center',
   color: '$light',
@@ -21,6 +22,7 @@ const Button = styled('button', {
   '@md': {
     padding: '1.3rem 2.8rem 1.4rem',
     fontSize: '2rem',
+    lineHeight: '2.5rem',
   },
 
   variants: {
@@ -40,10 +42,12 @@ const Button = styled('button', {
         padding: '1.2rem 1.85rem 1.4rem',
         width: '100%',
         fontSize: '1.8rem',
+        lineHeight: '2.2rem',
 
         '@md': {
-          fontSize: '3.2rem',
           padding: '1.6rem 1.85rem 1.4rem',
+          fontSize: '3.2rem',
+          lineHeight: '4rem',
         },
       },
     },
