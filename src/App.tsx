@@ -1,3 +1,5 @@
+import GameCard from 'components/GameCard';
+import StatusCard from 'components/StatusCard';
 import globalStyles from 'styles/globalStyles';
 import StartGame from 'views/StartGame';
 
@@ -21,9 +23,21 @@ const config = [
 
 export type TConfig = typeof config;
 
+export enum Status {
+  'active' = 'active',
+  'hidden' = 'hidden',
+  'revealed' = 'revealed',
+}
+
 function App() {
   globalStyles();
-  return <StartGame config={config} />;
+  return (
+    <div style={{ display: 'grid', gap: '40px', padding: '100px' }}>
+      <StatusCard isPlayer isActive label="Time" value="1:54" />
+      <StatusCard label="Time" value="1:54" />
+      <GameCard value="18" status={Status.hidden} big />
+    </div>
+  );
 }
 
 export default App;
