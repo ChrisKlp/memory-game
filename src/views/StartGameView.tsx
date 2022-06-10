@@ -84,7 +84,7 @@ const StyledLogo = styled(Logo, {
   },
 });
 
-type StartGameProps = {
+type Props = {
   config: TConfig;
 };
 
@@ -94,7 +94,7 @@ type TSettings = {
   theme: string;
 };
 
-function StartGame({ config }: StartGameProps) {
+function StartGameView({ config }: Props) {
   const [settings, setSettings] = useState(
     config.reduce(
       (result, { name, options }) => ({
@@ -144,4 +144,4 @@ function StartGame({ config }: StartGameProps) {
   );
 }
 
-export default StartGame;
+export default StartGameView;
