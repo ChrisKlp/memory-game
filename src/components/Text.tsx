@@ -62,6 +62,9 @@ const Text = styled('p', {
       dark: {
         color: '$blue900',
       },
+      default: {
+        color: '$blue300',
+      },
     },
     turnIndicator: {
       true: {
