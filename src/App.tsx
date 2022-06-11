@@ -31,7 +31,7 @@ function App() {
   globalStyles();
   return (
     <div>
-      <MainGame players={4} />
+      <MainGame players={2} size="4x4" />
     </div>
   );
 }

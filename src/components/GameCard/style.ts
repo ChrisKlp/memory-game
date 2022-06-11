@@ -7,14 +7,18 @@ export const Value = styled('span', {
   fontWeight: 700,
 });
 
-export const Wrapper = styled('div', {
+export const Wrapper = styled('button', {
   display: 'grid',
   placeItems: 'center',
-  width: '100%',
-  maxWidth: '7.2rem',
+  width: '4.7rem',
   aspectRatio: '1',
   backgroundColor: '$blue200',
   borderRadius: '50%',
+  border: 0,
+
+  '@md': {
+    width: '8.2rem',
+  },
 
   variants: {
     status: {
@@ -40,9 +44,15 @@ export const Wrapper = styled('div', {
     },
     big: {
       true: {
+        width: '7.2rem',
+
         [`& ${Value}`]: {
           fontSize: '4rem',
           lineHeight: '5rem',
+        },
+
+        '@md': {
+          width: '11.8rem',
         },
       },
     },
