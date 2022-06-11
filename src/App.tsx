@@ -4,15 +4,9 @@ import globalStyles from 'styles/globalStyles';
 import MainGame from 'views/MainGame';
 import StartGame from 'views/StartGame';
 
-export enum Status {
-  'active' = 'active',
-  'hidden' = 'hidden',
-  'revealed' = 'revealed',
-}
-
 function App() {
   const {
-    gameConfig,
+    gameSetup,
     handleStartGameClick,
     handleStartGameSelect,
     isGameStarted,
@@ -24,12 +18,12 @@ function App() {
       {!isGameStarted ? (
         <StartGame
           gameOptions={gameOptions}
-          gameConfig={gameConfig}
+          gameSetup={gameSetup}
           handleStartGameSelect={handleStartGameSelect}
           handleStartGameClick={handleStartGameClick}
         />
       ) : (
-        <MainGame gameConfig={gameConfig} />
+        <MainGame gameSetup={gameSetup} />
       )}
     </main>
   );

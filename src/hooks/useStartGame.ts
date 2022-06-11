@@ -1,27 +1,27 @@
 import { TGameOptions } from 'gameOptions';
 import { useState } from 'react';
 
-export type TGameConfig = {
+export type TGameSetup = {
   players: '1' | '2' | '3' | '4';
   size: '6x6' | '4x4';
   theme: 'Numbers' | 'Icons';
 };
 
 const useGame = (gameOptions: TGameOptions) => {
-  const [gameConfig, setGameConfig] = useState(
+  const [gameSetup, setGameSetup] = useState(
     gameOptions.reduce(
       (result, { name, options }) => ({
         ...result,
         [name]: options[0],
       }),
-      {} as TGameConfig
+      {} as TGameSetup
     )
   );
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const handleStartGameSelect = (name: string, option: string) => {
-    setGameConfig({
-      ...gameConfig,
+    setGameSetup({
+      ...gameSetup,
       [name]: option,
     });
   };
@@ -31,7 +31,7 @@ const useGame = (gameOptions: TGameOptions) => {
   };
 
   return {
-    gameConfig,
+    gameSetup,
     handleStartGameSelect,
     isGameStarted,
     handleStartGameClick,

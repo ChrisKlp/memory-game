@@ -1,14 +1,24 @@
+export enum Themes {
+  numbers = 'Numbers',
+  icons = 'Icons',
+}
+
+export enum Sizes {
+  small = '4x4',
+  big = '6x6',
+}
+
 export type TGameOptions = {
   name: string;
   label: string;
-  options: string[];
+  options: string[] | Themes[] | Sizes[];
 }[];
 
 export const gameOptions: TGameOptions = [
   {
     name: 'theme',
     label: 'Select Theme',
-    options: ['Numbers', 'Icons'],
+    options: [Themes.numbers, Themes.icons],
   },
   {
     name: 'players',
@@ -18,6 +28,6 @@ export const gameOptions: TGameOptions = [
   {
     name: 'size',
     label: 'Grid Size',
-    options: ['4x4', '6x6'],
+    options: [Sizes.small, Sizes.big],
   },
 ];

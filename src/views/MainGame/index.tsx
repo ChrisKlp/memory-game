@@ -1,77 +1,31 @@
-import { Status } from 'App';
 import GameCard from 'components/GameCard';
-import { TGameConfig } from 'hooks/useStartGame';
-import { useState } from 'react';
+import { Sizes } from 'gameOptions';
+import useGame from 'hooks/useGame';
+import { TGameSetup } from 'hooks/useStartGame';
 import * as S from 'views/MainGame/style';
 
-export type TGameStats = {
-  players: number;
-  points: number[] | null;
-  activePlayer: number;
-  moves: number;
-};
-
 type Props = {
-  gameConfig: TGameConfig;
+  gameSetup: TGameSetup;
 };
 
-type TGameBoard = {
-  id: number;
-  value: number;
-  status: Status;
-}[];
-
-const createGameBoard = (amount: number): TGameBoard => {
-  return new Array(amount).fill(null).map((_, i) => ({
-    id: i,
-    value: i,
-    status: Status.hidden,
-  }));
-};
-
-function MainGame({ gameConfig }: Props) {
-  const players = parseInt(gameConfig.players, 10);
-  const [gameStats, setGameStats] = useState<TGameStats>({
-    players,
-    points: players > 1 ? new Array(players).fill(0) : null,
-    activePlayer: 2,
-    moves: 10,
-  });
-  const { size } = gameConfig;
-
-  const [gameBoard, setGameBoard] = useState(
-    createGameBoard(size === '6x6' ? 36 : 16)
-  );
-
-  const handleCardClick = (id: number): void => {
-    setGameBoard(
-      gameBoard.map((item) =>
-        item.id === id
-          ? {
-              ...item,
-              status:
-                item.status === Status.active ? Status.hidden : Status.active,
-            }
-          : item
-      )
-    );
-  };
-
+function MainGame({ gameSetup }: Props) {
+  const { gameBoard, gameStats, handleCardClick, isMultiPlayer } =
+    useGame(gameSetup);
   return (
     <S.Container>
       <S.StyledHeader />
-      <S.Board small={size === '4x4'}>
+      <S.Board small={gameSetup.size === Sizes.small}>
         {gameBoard.map(({ id, status, value }) => (
           <GameCard
             key={id}
             value={value.toString()}
             status={status}
-            big={size === '4x4'}
+            big={gameSetup.size === Sizes.small}
             onClick={() => handleCardClick(id)}
           />
         ))}
       </S.Board>
-      <S.StyledFooter gameStats={gameStats} />
+      <S.StyledFooter gameStats={gameStats} isMultiPlayer={isMultiPlayer} />
     </S.Container>
   );
 }

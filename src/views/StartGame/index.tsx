@@ -3,19 +3,19 @@ import Button from 'components/Button';
 import SelectButton from 'components/SelectButton';
 import Text from 'components/Text';
 import * as S from 'views/StartGame/style';
+import { TGameSetup } from 'hooks/useStartGame';
 import { TGameOptions } from 'gameOptions';
-import { TGameConfig } from 'hooks/useStartGame';
 
 type Props = {
+  gameSetup: TGameSetup;
   gameOptions: TGameOptions;
-  gameConfig: TGameConfig;
   handleStartGameSelect: (name: string, option: string) => void;
   handleStartGameClick: () => void;
 };
 
 function StartGame({
+  gameSetup,
   gameOptions,
-  gameConfig,
   handleStartGameSelect,
   handleStartGameClick,
 }: Props) {
@@ -39,9 +39,7 @@ function StartGame({
                   {options.map((option) => (
                     <SelectButton
                       key={option}
-                      isActive={
-                        gameConfig[name as keyof TGameConfig] === option
-                      }
+                      isActive={gameSetup[name as keyof TGameSetup] === option}
                       onClick={() => handleStartGameSelect(name, option)}
                     >
                       {option}

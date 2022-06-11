@@ -1,9 +1,9 @@
-import { Status } from 'App';
 import * as S from 'components/GameCard/style';
+import { GameCardStatuses } from 'hooks/useGame';
 
 type Props = {
   value: string;
-  status: Status;
+  status: GameCardStatuses;
   big?: boolean;
   onClick: () => void;
 };
