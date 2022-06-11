@@ -4,6 +4,10 @@ import { globalCss } from './stitches.config';
 const globalStyles = globalCss({
   ...reset,
 
+  '*, *::before, *::after': {
+    boxSizing: 'border-box',
+  },
+
   html: {
     fontSize: '62.5%',
   },
