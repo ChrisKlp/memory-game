@@ -1,5 +1,5 @@
 import { styled } from 'styles/stitches.config';
-import { TGameStats } from 'views/GameView';
+import { TGameStats } from 'views/MainGame';
 import StatusCard from './StatusCard';
 
 const Wrapper = styled('div', {
