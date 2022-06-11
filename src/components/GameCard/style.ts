@@ -1,14 +1,13 @@
-import { Status } from 'App';
 import { styled } from 'styles/stitches.config';
 
-const Value = styled('span', {
+export const Value = styled('span', {
   color: '$light',
   fontSize: '2.4rem',
   lineHeight: '3rem',
   fontWeight: 700,
 });
 
-const Wrapper = styled('div', {
+export const Wrapper = styled('div', {
   display: 'grid',
   placeItems: 'center',
   width: '100%',
@@ -49,19 +48,3 @@ const Wrapper = styled('div', {
     },
   },
 });
-
-type Props = {
-  value: string;
-  status: Status;
-  big?: boolean;
-};
-
-function GameCard({ value, status, big }: Props) {
-  return (
-    <Wrapper status={status} big={big}>
-      <Value>{value}</Value>
-    </Wrapper>
-  );
-}
-
-export default GameCard;

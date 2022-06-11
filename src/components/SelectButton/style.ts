@@ -1,5 +1,5 @@
 import { styled } from 'styles/stitches.config';
-import Button from './Button';
+import Button from 'components/Button';
 
 const SelectButtonStyled = styled(Button, {
   width: '100%',
@@ -24,20 +24,4 @@ const SelectButtonStyled = styled(Button, {
   },
 });
 
-type Props = {
-  children: React.ReactNode;
-  isActive?: boolean;
-  onClick?: () => void;
-};
-
-export default function SelectButton({
-  children,
-  onClick,
-  isActive = false,
-}: Props) {
-  return (
-    <SelectButtonStyled as="span" active={isActive} onClick={onClick}>
-      {children}
-    </SelectButtonStyled>
-  );
-}
+export default SelectButtonStyled;

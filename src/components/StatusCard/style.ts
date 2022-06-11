@@ -1,7 +1,7 @@
 import { styled } from 'styles/stitches.config';
-import Text from './Text';
+import Text from 'components/Text';
 
-const Wrapper = styled('div', {
+export const Wrapper = styled('div', {
   position: 'relative',
   display: 'grid',
   justifyItems: 'center',
@@ -58,7 +58,7 @@ const Wrapper = styled('div', {
   },
 });
 
-const Value = styled(Text, {
+export const Value = styled(Text, {
   fontSize: '2.4rem',
   lineHeight: '3rem',
 
@@ -78,23 +78,3 @@ const Value = styled(Text, {
     },
   },
 });
-
-type Props = {
-  isPlayer?: boolean;
-  isActive?: boolean;
-  label: string;
-  value: string;
-};
-
-function StatusCard({ isActive, isPlayer, label, value }: Props) {
-  return (
-    <Wrapper isPlayer={isPlayer} isActive={isActive}>
-      <Text size="small" color={isActive ? 'light' : 'default'}>
-        {label}
-      </Text>
-      <Value color={isActive ? 'light' : 'dark'}>{value}</Value>
-    </Wrapper>
-  );
-}
-
-export default StatusCard;

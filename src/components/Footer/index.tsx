@@ -1,13 +1,6 @@
-import { styled } from 'styles/stitches.config';
 import { TGameStats } from 'views/MainGame';
-import StatusCard from './StatusCard';
-
-const Wrapper = styled('div', {
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'flex-end',
-  gap: '2.4rem',
-});
+import Wrapper from 'components/Footer/style';
+import StatusCard from 'components/StatusCard';
 
 type Props = {
   gameStats: TGameStats;
