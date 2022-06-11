@@ -1,5 +1,6 @@
 import { Status } from 'App';
 import GameCard from 'components/GameCard';
+import { TGameConfig } from 'hooks/useStartGame';
 import { useState } from 'react';
 import * as S from 'views/MainGame/style';
 
@@ -11,8 +12,7 @@ export type TGameStats = {
 };
 
 type Props = {
-  players: number;
-  size: '4x4' | '6x6';
+  gameConfig: TGameConfig;
 };
 
 type TGameBoard = {
@@ -29,13 +29,15 @@ const createGameBoard = (amount: number): TGameBoard => {
   }));
 };
 
-function MainGame({ players, size }: Props) {
+function MainGame({ gameConfig }: Props) {
+  const players = parseInt(gameConfig.players, 10);
   const [gameStats, setGameStats] = useState<TGameStats>({
     players,
     points: players > 1 ? new Array(players).fill(0) : null,
     activePlayer: 2,
     moves: 10,
   });
+  const { size } = gameConfig;
 
   const [gameBoard, setGameBoard] = useState(
     createGameBoard(size === '6x6' ? 36 : 16)

@@ -1,31 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Button from 'components/Button';
 import SelectButton from 'components/SelectButton';
 import Text from 'components/Text';
-import { TConfig } from 'App';
 import * as S from 'views/StartGame/style';
+import { TGameOptions } from 'gameOptions';
+import { TGameConfig } from 'hooks/useStartGame';
 
 type Props = {
-  config: TConfig;
+  gameOptions: TGameOptions;
+  gameConfig: TGameConfig;
+  handleStartGameSelect: (name: string, option: string) => void;
+  handleStartGameClick: () => void;
 };
 
-type TSettings = {
-  players: string;
-  size: string;
-  theme: string;
-};
-
-function StartGame({ config }: Props) {
-  const [settings, setSettings] = useState(
-    config.reduce(
-      (result, { name, options }) => ({
-        ...result,
-        [name]: options[0],
-      }),
-      {} as TSettings
-    )
-  );
-
+function StartGame({
+  gameOptions,
+  gameConfig,
+  handleStartGameSelect,
+  handleStartGameClick,
+}: Props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -39,17 +32,17 @@ function StartGame({ config }: Props) {
         <S.StyledLogo />
         <S.SettingsWrapper>
           <S.Grid>
-            {config.map(({ label, name, options }) => (
+            {gameOptions.map(({ label, name, options }) => (
               <S.Group key={name}>
                 <Text size="h3">{label}</Text>
                 <S.Flex>
                   {options.map((option) => (
                     <SelectButton
                       key={option}
-                      isActive={settings[name as keyof TSettings] === option}
-                      onClick={() =>
-                        setSettings({ ...settings, [name]: option })
+                      isActive={
+                        gameConfig[name as keyof TGameConfig] === option
                       }
+                      onClick={() => handleStartGameSelect(name, option)}
                     >
                       {option}
                     </SelectButton>
@@ -58,7 +51,9 @@ function StartGame({ config }: Props) {
               </S.Group>
             ))}
           </S.Grid>
-          <Button big>Start Game</Button>
+          <Button big onClick={handleStartGameClick}>
+            Start Game
+          </Button>
         </S.SettingsWrapper>
       </S.Container>
     </S.Wrapper>

@@ -9,6 +9,7 @@ export const Wrapper = styled('div', {
   bottom: 0,
   backgroundColor: '$blue900',
   overflowY: 'auto',
+  zIndex: 10,
 });
 
 export const Container = styled('div', {

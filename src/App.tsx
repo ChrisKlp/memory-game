@@ -1,25 +1,8 @@
+import { gameOptions } from 'gameOptions';
+import useStartGame from 'hooks/useStartGame';
 import globalStyles from 'styles/globalStyles';
 import MainGame from 'views/MainGame';
-
-const config = [
-  {
-    name: 'theme',
-    label: 'Select Theme',
-    options: ['Numbers', 'Icons'],
-  },
-  {
-    name: 'players',
-    label: 'Numbers of Players',
-    options: ['1', '2', '3', '4'],
-  },
-  {
-    name: 'size',
-    label: 'Grid Size',
-    options: ['4x4', '6x6'],
-  },
-];
-
-export type TConfig = typeof config;
+import StartGame from 'views/StartGame';
 
 export enum Status {
   'active' = 'active',
@@ -28,11 +11,27 @@ export enum Status {
 }
 
 function App() {
+  const {
+    gameConfig,
+    handleStartGameClick,
+    handleStartGameSelect,
+    isGameStarted,
+  } = useStartGame(gameOptions);
+
   globalStyles();
   return (
-    <div>
-      <MainGame players={2} size="4x4" />
-    </div>
+    <main>
+      {!isGameStarted ? (
+        <StartGame
+          gameOptions={gameOptions}
+          gameConfig={gameConfig}
+          handleStartGameSelect={handleStartGameSelect}
+          handleStartGameClick={handleStartGameClick}
+        />
+      ) : (
+        <MainGame gameConfig={gameConfig} />
+      )}
+    </main>
   );
 }
 
