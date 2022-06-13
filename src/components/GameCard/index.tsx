@@ -1,16 +1,16 @@
 import * as S from 'components/GameCard/style';
-import { GameCardStatuses } from 'hooks/useGame';
+import { CardStates } from 'hooks/useGameBoard';
 
 type Props = {
   value: string;
-  status: GameCardStatuses;
+  state: CardStates;
   big?: boolean;
   onClick: () => void;
 };
 
-function GameCard({ value, status, big, onClick }: Props) {
+function GameCard({ value, state, big, onClick }: Props) {
   return (
-    <S.Wrapper status={status} big={big} onClick={onClick}>
+    <S.Wrapper state={state} big={big} onClick={onClick}>
       <S.Value>{value}</S.Value>
     </S.Wrapper>
   );

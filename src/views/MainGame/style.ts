@@ -29,13 +29,17 @@ export const Board = styled('div', {
   gridTemplate: 'repeat(6, 1fr) / repeat(6, 1fr)',
   placeItems: 'center',
   gap: '1rem',
-  width: '100%',
   maxWidth: '57.2rem',
   variants: {
     small: {
       true: {
         maxWidth: '53.2rem',
         gridTemplate: 'repeat(4, 1fr) / repeat(4, 1fr)',
+      },
+    },
+    disabled: {
+      true: {
+        pointerEvents: 'none',
       },
     },
   },

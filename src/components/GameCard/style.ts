@@ -21,7 +21,7 @@ export const Wrapper = styled('button', {
   },
 
   variants: {
-    status: {
+    state: {
       active: {
         backgroundColor: '$orange500',
       },
