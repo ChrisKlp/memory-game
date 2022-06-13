@@ -96,7 +96,7 @@ const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
   }
 };
 
-const useGameBoard = (size: Sizes) => {
+const useGameBoard = (size: string) => {
   const [gameBoard, dispatch] = useReducer(reducer, {
     cards: createGameBoard(size === Sizes.big ? 36 : 16),
     activeCards: [],

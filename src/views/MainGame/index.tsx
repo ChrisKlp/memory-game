@@ -17,24 +17,26 @@ function MainGame({ gameSetup }: Props) {
     setCardsRevealed,
     resetActiveCards,
     gameBoard: { activeCards, cards },
-  } = useGameBoard(gameSetup.size === Sizes.big ? Sizes.big : Sizes.small);
+  } = useGameBoard(gameSetup.size);
   const { increaseMoves, addPoint, changePlayer, gameStats } =
     useGameStats(gameSetup);
 
+  const { isMultiPlayer, moves, points } = gameStats;
+
   const handleCardClick = (id: number) => {
     setCardActive(id);
-    if (!gameStats.isMultiPlayer) increaseMoves();
+    if (!isMultiPlayer) increaseMoves();
   };
 
   const handleEndOfTurn = useCallback(() => {
     const [firstCard, secondCard] = activeCards;
 
     if (firstCard.value === secondCard.value) {
-      addPoint();
+      if (isMultiPlayer) addPoint();
       setCardsRevealed();
     } else {
       setCardsHidden();
-      if (gameStats.isMultiPlayer) changePlayer();
+      if (isMultiPlayer) changePlayer();
     }
 
     resetActiveCards();
@@ -42,20 +44,29 @@ function MainGame({ gameSetup }: Props) {
     activeCards,
     addPoint,
     changePlayer,
-    gameStats.isMultiPlayer,
+    isMultiPlayer,
     resetActiveCards,
     setCardsHidden,
     setCardsRevealed,
   ]);
 
   const handleEndGame = useCallback(() => {
-    if (cards.every((card) => card.state === CardStates.revealed)) {
-      console.log('END GAME');
+    console.log('END GAME');
+    if (!isMultiPlayer) {
+      console.log(`Moves: ${moves}`);
+      console.log(`Time: 1:53`);
+    } else {
+      const winnerPoints = Math.max(...points);
+      const winnerIdx = points.findIndex((point) => point === winnerPoints);
+      console.log(`player win: P${winnerIdx + 1}`);
+      console.log(`player points: ${winnerPoints}`);
     }
-  }, [cards]);
+  }, [isMultiPlayer, moves, points]);
 
   useEffect(() => {
-    handleEndGame();
+    if (cards.every((card) => card.state === CardStates.revealed)) {
+      handleEndGame();
+    }
 
     if (activeCards.length < 2) return;
     const endOfTurnTimer = setTimeout(() => {
