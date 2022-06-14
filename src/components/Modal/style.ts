@@ -7,7 +7,7 @@ export const Wrapper = styled('div', {
   right: 0,
   bottom: 0,
   backgroundColor: '#00000050',
-  overflow: 'hidden',
+  overflowY: 'auto',
   zIndex: 9999,
 });
 

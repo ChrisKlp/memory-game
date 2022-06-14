@@ -70,6 +70,7 @@ export const StyledLogo = styled(Logo, {
   paddingTop: '4rem',
   width: '12.2rem',
   justifySelf: 'center',
+  boxSizing: 'content-box',
 
   '& path': {
     fill: '$light',

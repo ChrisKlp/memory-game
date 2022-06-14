@@ -12,7 +12,7 @@ const useGame = (gameSetup: TGameSetup) => {
     gameBoard: { activeCards, cards },
   } = useGameBoard(gameSetup.size);
 
-  const { increaseMoves, addPoint, changePlayer, gameState } =
+  const { increaseMoves, addPoint, changePlayer, setGameOver, gameState } =
     useGameState(gameSetup);
 
   const handleCardClick = (id: number) => {
@@ -44,7 +44,8 @@ const useGame = (gameSetup: TGameSetup) => {
 
   const handleEndGame = useCallback(() => {
     console.log('END GAME');
-  }, []);
+    setGameOver();
+  }, [setGameOver]);
 
   useEffect(() => {
     if (cards.every((card) => card.state === CardStates.revealed)) {

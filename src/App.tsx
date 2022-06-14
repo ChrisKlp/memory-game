@@ -20,7 +20,7 @@ function App() {
   globalStyles();
   return (
     <main>
-      {/* {!isGameStarted ? (
+      {!isGameStarted ? (
         <StartGame
           gameOptions={gameOptions}
           gameSetup={gameSetup}
@@ -28,17 +28,19 @@ function App() {
           handleStartGameClick={handleStartGameClick}
         />
       ) : (
-        )} */}
-      <MainGame
-        activeCards={activeCards}
-        cards={cards}
-        size={gameSetup.size}
-        handleCardClick={handleCardClick}
-        gameState={gameState}
-      />
-      <Modal>
-        <EndGame gameState={gameState} />
-      </Modal>
+        <MainGame
+          activeCards={activeCards}
+          cards={cards}
+          size={gameSetup.size}
+          handleCardClick={handleCardClick}
+          gameState={gameState}
+        />
+      )}
+      {gameState.isGameOver && (
+        <Modal>
+          <EndGame gameState={gameState} />
+        </Modal>
+      )}
     </main>
   );
 }
