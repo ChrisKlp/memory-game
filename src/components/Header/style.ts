@@ -14,6 +14,22 @@ export const Group = styled('div', {
   gap: '1.6rem',
 });
 
+export const MenuButton = styled(Button, {
+  display: 'block',
+
+  '@md': {
+    display: 'none',
+  },
+});
+
+export const RestartButton = styled(Button, {
+  display: 'none',
+
+  '@md': {
+    display: 'block',
+  },
+});
+
 export const SecondaryButton = styled(Button, {
   display: 'none',
 

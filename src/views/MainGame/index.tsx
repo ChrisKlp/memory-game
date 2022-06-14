@@ -10,6 +10,8 @@ type Props = {
   size: string;
   handleCardClick: (id: number) => void;
   gameState: TGameState;
+  handleNewGame: () => void;
+  handleRestart: () => void;
 };
 
 function MainGame({
@@ -18,10 +20,15 @@ function MainGame({
   size,
   handleCardClick,
   gameState,
+  handleNewGame,
+  handleRestart,
 }: Props) {
   return (
     <S.Container>
-      <S.StyledHeader />
+      <S.StyledHeader
+        handleNewGame={handleNewGame}
+        handleRestart={handleRestart}
+      />
       <S.Board small={size === Sizes.small} disabled={activeCards.length === 2}>
         {cards.map(({ id, state, value }) => (
           <GameCard

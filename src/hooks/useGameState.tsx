@@ -13,9 +13,10 @@ export type TGameState = {
 type TAction =
   | { type: 'INCREASE_MOVES' }
   | { type: 'RESET_MOVES' }
+  | { type: 'RESET_POINTS' }
   | { type: 'ADD_POINT' }
-  | { type: 'CHANGE_PLAYER' }
-  | { type: 'SET_GAME_OVER' };
+  | { type: 'CHANGE_PLAYER'; payload: boolean }
+  | { type: 'SET_GAME_OVER'; payload: boolean };
 
 const reducer = (state: TGameState, action: TAction) => {
   switch (action.type) {
@@ -31,6 +32,12 @@ const reducer = (state: TGameState, action: TAction) => {
         moves: 0,
       };
     }
+    case 'RESET_POINTS': {
+      return {
+        ...state,
+        points: Array(state.players).fill(0),
+      };
+    }
     case 'ADD_POINT': {
       return {
         ...state,
@@ -40,16 +47,24 @@ const reducer = (state: TGameState, action: TAction) => {
       };
     }
     case 'CHANGE_PLAYER': {
+      const activePlayer = () => {
+        if (action.payload === true) {
+          return 1;
+        }
+        return state.activePlayer === state.players
+          ? 1
+          : state.activePlayer + 1;
+      };
+
       return {
         ...state,
-        activePlayer:
-          state.activePlayer === state.players ? 1 : state.activePlayer + 1,
+        activePlayer: activePlayer(),
       };
     }
     case 'SET_GAME_OVER': {
       return {
         ...state,
-        isGameOver: true,
+        isGameOver: action.payload,
       };
     }
     default:
@@ -81,18 +96,29 @@ const useGameState = (gameSetup: TGameSetup) => {
     dispatch({ type: 'RESET_MOVES' });
   }, [dispatch]);
 
-  const changePlayer = useCallback(() => {
-    dispatch({ type: 'CHANGE_PLAYER' });
+  const resetPoints = useCallback(() => {
+    dispatch({ type: 'RESET_POINTS' });
   }, [dispatch]);
 
-  const setGameOver = useCallback(() => {
-    dispatch({ type: 'SET_GAME_OVER' });
-  }, [dispatch]);
+  const changePlayer = useCallback(
+    (isGameReset = false) => {
+      dispatch({ type: 'CHANGE_PLAYER', payload: isGameReset });
+    },
+    [dispatch]
+  );
+
+  const setGameOver = useCallback(
+    (isGameOver: boolean) => {
+      dispatch({ type: 'SET_GAME_OVER', payload: isGameOver });
+    },
+    [dispatch]
+  );
 
   return {
     increaseMoves,
     addPoint,
     resetMoves,
+    resetPoints,
     changePlayer,
     setGameOver,
     gameState,

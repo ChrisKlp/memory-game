@@ -9,11 +9,19 @@ const useGame = (gameSetup: TGameSetup) => {
     setCardsHidden,
     setCardsRevealed,
     resetActiveCards,
+    resetCards,
     gameBoard: { activeCards, cards },
   } = useGameBoard(gameSetup.size);
 
-  const { increaseMoves, addPoint, changePlayer, setGameOver, gameState } =
-    useGameState(gameSetup);
+  const {
+    increaseMoves,
+    addPoint,
+    resetPoints,
+    resetMoves,
+    changePlayer,
+    setGameOver,
+    gameState,
+  } = useGameState(gameSetup);
 
   const handleCardClick = (id: number) => {
     setCardActive(id);
@@ -42,9 +50,16 @@ const useGame = (gameSetup: TGameSetup) => {
     setCardsRevealed,
   ]);
 
+  const handleRestart = useCallback(() => {
+    resetCards();
+    resetPoints();
+    resetMoves();
+    changePlayer(true);
+    setGameOver(false);
+  }, [changePlayer, resetCards, resetMoves, resetPoints, setGameOver]);
+
   const handleEndGame = useCallback(() => {
-    console.log('END GAME');
-    setGameOver();
+    setGameOver(true);
   }, [setGameOver]);
 
   useEffect(() => {
@@ -52,18 +67,17 @@ const useGame = (gameSetup: TGameSetup) => {
       handleEndGame();
     }
 
-    if (activeCards.length < 2) return;
+    if (activeCards.length < 2) return undefined;
 
     const endOfTurnTimer = setTimeout(() => {
       handleEndOfTurn();
     }, 1000);
-    // eslint-disable-next-line consistent-return
     return () => {
       clearInterval(endOfTurnTimer);
     };
   }, [activeCards.length, cards, handleEndGame, handleEndOfTurn]);
 
-  return { handleCardClick, gameState, activeCards, cards };
+  return { handleCardClick, gameState, activeCards, cards, handleRestart };
 };
 
 export default useGame;

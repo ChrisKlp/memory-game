@@ -22,7 +22,8 @@ type TAction =
   | { type: 'SET_ACTIVE'; payload: number }
   | { type: 'SET_REVEALED' }
   | { type: 'SET_HIDDEN' }
-  | { type: 'RESET_ACTIVE_CARDS' };
+  | { type: 'RESET_ACTIVE_CARDS' }
+  | { type: 'RESET_CARDS'; payload: string };
 
 const setValue = (index: number) => {
   if (index % 2 === 1) {
@@ -91,6 +92,12 @@ const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
         activeCards: [],
       };
     }
+    case 'RESET_CARDS': {
+      return {
+        cards: createGameBoard(action.payload === Sizes.big ? 36 : 16),
+        activeCards: [],
+      };
+    }
     default:
       return state;
   }
@@ -121,11 +128,16 @@ const useGameBoard = (size: string) => {
     dispatch({ type: 'RESET_ACTIVE_CARDS' });
   }, [dispatch]);
 
+  const resetCards = useCallback(() => {
+    dispatch({ type: 'RESET_CARDS', payload: size });
+  }, [dispatch, size]);
+
   return {
     setCardActive,
     setCardsRevealed,
     setCardsHidden,
     resetActiveCards,
+    resetCards,
     gameBoard,
   };
 };

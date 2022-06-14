@@ -7,16 +7,16 @@ export type TGameSetup = {
   theme: 'Numbers' | 'Icons';
 };
 
-const useGame = (gameOptions: TGameOptions) => {
-  const [gameSetup, setGameSetup] = useState(
-    gameOptions.reduce(
-      (result, { name, options }) => ({
-        ...result,
-        [name]: options[0],
-      }),
-      {} as TGameSetup
-    )
+const useStartGame = (gameOptions: TGameOptions) => {
+  const initialState = gameOptions.reduce(
+    (result, { name, options }) => ({
+      ...result,
+      [name]: options[0],
+    }),
+    {} as TGameSetup
   );
+
+  const [gameSetup, setGameSetup] = useState(initialState);
   const [isGameStarted, setIsGameStarted] = useState(false);
 
   const handleStartGameSelect = (name: string, option: string) => {
@@ -30,12 +30,18 @@ const useGame = (gameOptions: TGameOptions) => {
     setIsGameStarted(true);
   };
 
+  const handleNewGame = () => {
+    setIsGameStarted(false);
+    setGameSetup(initialState);
+  };
+
   return {
     gameSetup,
     handleStartGameSelect,
     isGameStarted,
     handleStartGameClick,
+    handleNewGame,
   };
 };
 
-export default useGame;
+export default useStartGame;
