@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from 'react';
-import useGameBoard, { CardStates } from './useGameBoard';
+import { TGameSetup, CardStates } from 'models';
+import useGameBoard from './useGameBoard';
 import useGameState from './useGameState';
-import { TGameSetup } from './useStartGame';
 
 const useGame = (gameSetup: TGameSetup) => {
   const {

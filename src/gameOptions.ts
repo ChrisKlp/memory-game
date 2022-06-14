@@ -1,20 +1,6 @@
-export enum Themes {
-  numbers = 'Numbers',
-  icons = 'Icons',
-}
+import { Sizes, TGameOptions, Themes } from 'models';
 
-export enum Sizes {
-  small = '4x4',
-  big = '6x6',
-}
-
-export type TGameOptions = {
-  name: string;
-  label: string;
-  options: string[] | Themes[] | Sizes[];
-}[];
-
-export const gameOptions: TGameOptions = [
+const gameOptions: TGameOptions = [
   {
     name: 'theme',
     label: 'Select Theme',
@@ -31,3 +17,5 @@ export const gameOptions: TGameOptions = [
     options: [Sizes.small, Sizes.big],
   },
 ];
+
+export default gameOptions;

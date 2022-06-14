@@ -1,14 +1,5 @@
 import { useCallback, useReducer } from 'react';
-import { TGameSetup } from './useStartGame';
-
-export type TGameState = {
-  players: number;
-  points: number[];
-  activePlayer: number;
-  moves: number;
-  isMultiPlayer: boolean;
-  isGameOver: boolean;
-};
+import { TGameState, TGameSetup } from 'models';
 
 type TAction =
   | { type: 'INCREASE_MOVES' }

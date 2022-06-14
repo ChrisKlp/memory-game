@@ -1,5 +1,5 @@
 import * as S from 'components/GameCard/style';
-import { CardStates } from 'hooks/useGameBoard';
+import { CardStates } from 'models';
 
 type Props = {
   value: string;

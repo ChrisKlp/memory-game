@@ -1,22 +1,5 @@
-import { Sizes } from 'gameOptions';
 import { useCallback, useReducer } from 'react';
-
-export enum CardStates {
-  active = 'active',
-  hidden = 'hidden',
-  revealed = 'revealed',
-}
-
-export type TGameCard = {
-  id: number;
-  value: number;
-  state: CardStates;
-};
-
-export type TGameBoardState = {
-  cards: TGameCard[];
-  activeCards: TGameCard[];
-};
+import { CardStates, Sizes, TGameBoardState, TGameCard } from 'models';
 
 type TAction =
   | { type: 'SET_ACTIVE'; payload: number }

@@ -3,8 +3,7 @@ import Button from 'components/Button';
 import SelectButton from 'components/SelectButton';
 import Text from 'components/Text';
 import * as S from 'views/StartGame/style';
-import { TGameSetup } from 'hooks/useStartGame';
-import { TGameOptions } from 'gameOptions';
+import { TGameSetup, TGameOptions } from 'models';
 
 type Props = {
   gameSetup: TGameSetup;

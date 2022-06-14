@@ -1,6 +1,6 @@
 import Modal from 'components/Modal';
 import useGame from 'hooks/useGame';
-import { TGameSetup } from 'hooks/useStartGame';
+import { TGameSetup } from 'models';
 import EndGame from 'views/EndGame';
 import MainGame from 'views/MainGame';
 

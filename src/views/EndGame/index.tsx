@@ -1,7 +1,7 @@
 /* eslint-disable no-debugger */
 import ScoreList from 'components/ScoreList';
 import Text from 'components/Text';
-import { TGameState } from 'hooks/useGameState';
+import { TGameState } from 'models';
 import { useMemo } from 'react';
 import * as S from 'views/EndGame/style';
 

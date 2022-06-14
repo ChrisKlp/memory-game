@@ -1,6 +1,6 @@
 import Wrapper from 'components/Footer/style';
 import StatusCard from 'components/StatusCard';
-import { TGameState } from 'hooks/useGameState';
+import { TGameState } from 'models';
 
 type Props = {
   gameState: TGameState;

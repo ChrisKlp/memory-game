@@ -1,5 +1,5 @@
 import Game from 'Game';
-import { gameOptions } from 'gameOptions';
+import gameOptions from 'gameOptions';
 import useStartGame from 'hooks/useStartGame';
 import globalStyles from 'styles/globalStyles';
 import StartGame from 'views/StartGame';

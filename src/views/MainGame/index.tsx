@@ -1,7 +1,5 @@
 import GameCard from 'components/GameCard';
-import { Sizes } from 'gameOptions';
-import { CardStates, TGameCard } from 'hooks/useGameBoard';
-import { TGameState } from 'hooks/useGameState';
+import { TGameCard, TGameState, Sizes, CardStates } from 'models';
 import * as S from 'views/MainGame/style';
 
 type Props = {

@@ -1,11 +1,5 @@
-import { TGameOptions } from 'gameOptions';
+import { TGameOptions, TGameSetup } from 'models';
 import { useState } from 'react';
-
-export type TGameSetup = {
-  players: '1' | '2' | '3' | '4';
-  size: '6x6' | '4x4';
-  theme: 'Numbers' | 'Icons';
-};
 
 const useStartGame = (gameOptions: TGameOptions) => {
   const initialState = gameOptions.reduce(
