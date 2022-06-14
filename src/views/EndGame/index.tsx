@@ -18,8 +18,8 @@ export type TSingleScore = {
 
 type Props = {
   gameState: TGameState;
-  handleNewGame: () => void;
-  handleRestart: () => void;
+  handleNewGame: (cb?: () => void) => void;
+  handleRestart: (cb?: () => void) => void;
 };
 
 function EndGame({ gameState, handleNewGame, handleRestart }: Props) {
@@ -74,10 +74,10 @@ function EndGame({ gameState, handleNewGame, handleRestart }: Props) {
         isMultiPlayer={isMultiPlayer}
       />
       <S.ButtonsGroup>
-        <S.StyledBigButton onClick={handleRestart} big>
+        <S.StyledBigButton onClick={() => handleRestart()} big>
           Restart
         </S.StyledBigButton>
-        <S.StyledBigButton onClick={handleNewGame} big secondary>
+        <S.StyledBigButton onClick={() => handleNewGame()} big secondary>
           Setup New Game
         </S.StyledBigButton>
       </S.ButtonsGroup>
