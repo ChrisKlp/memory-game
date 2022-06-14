@@ -26,7 +26,11 @@ function Game({ gameSetup, handleNewGame }: Props) {
       />
       {gameState.isGameOver && (
         <Modal>
-          <EndGame gameState={gameState} />
+          <EndGame
+            gameState={gameState}
+            handleNewGame={handleNewGame}
+            handleRestart={handleRestart}
+          />
         </Modal>
       )}
     </>
