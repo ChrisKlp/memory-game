@@ -9,6 +9,16 @@ export const Wrapper = styled('div', {
   backgroundColor: '#00000050',
   overflowY: 'auto',
   zIndex: 9999,
+
+  variants: {
+    mobile: {
+      true: {
+        '@md': {
+          display: 'none',
+        },
+      },
+    },
+  },
 });
 
 export const Container = styled('div', {

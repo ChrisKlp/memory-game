@@ -4,9 +4,10 @@ import * as S from 'components/Modal/style';
 type Props = {
   children: React.ReactNode;
   className?: string;
+  mobile?: boolean;
 };
 
-function Modal({ children, className }: Props) {
+function Modal({ children, className, mobile }: Props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -14,7 +15,7 @@ function Modal({ children, className }: Props) {
     };
   }, []);
   return (
-    <S.Wrapper>
+    <S.Wrapper mobile={mobile}>
       <S.Container className={className}>{children}</S.Container>
     </S.Wrapper>
   );

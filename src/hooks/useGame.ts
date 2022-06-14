@@ -50,13 +50,17 @@ const useGame = (gameSetup: TGameSetup) => {
     setCardsRevealed,
   ]);
 
-  const handleRestart = useCallback(() => {
-    resetCards();
-    resetPoints();
-    resetMoves();
-    changePlayer(true);
-    setGameOver(false);
-  }, [changePlayer, resetCards, resetMoves, resetPoints, setGameOver]);
+  const handleRestart = useCallback(
+    (callback?: () => void) => {
+      resetCards();
+      resetPoints();
+      resetMoves();
+      changePlayer(true);
+      setGameOver(false);
+      return callback && callback();
+    },
+    [changePlayer, resetCards, resetMoves, resetPoints, setGameOver]
+  );
 
   const handleEndGame = useCallback(() => {
     setGameOver(true);

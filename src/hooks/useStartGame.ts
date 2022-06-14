@@ -30,9 +30,10 @@ const useStartGame = (gameOptions: TGameOptions) => {
     setIsGameStarted(true);
   };
 
-  const handleNewGame = () => {
+  const handleNewGame = (callback?: () => void) => {
     setIsGameStarted(false);
     setGameSetup(initialState);
+    return callback && callback();
   };
 
   return {

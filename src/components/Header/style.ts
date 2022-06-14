@@ -51,3 +51,11 @@ export const StyledLogo = styled(Logo, {
     width: '15.3rem',
   },
 });
+
+export const MenuWrapper = styled('div', {
+  padding: '2.4rem',
+  display: 'grid',
+  gap: '1.6rem',
+  backgroundColor: '$light',
+  borderRadius: '1rem',
+});
