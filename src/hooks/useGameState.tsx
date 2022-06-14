@@ -1,7 +1,7 @@
 import { useCallback, useReducer } from 'react';
 import { TGameSetup } from './useStartGame';
 
-export type TGameStatsState = {
+export type TGameState = {
   players: number;
   points: number[];
   activePlayer: number;
@@ -15,7 +15,7 @@ type TAction =
   | { type: 'ADD_POINT' }
   | { type: 'CHANGE_PLAYER' };
 
-const reducer = (state: TGameStatsState, action: TAction) => {
+const reducer = (state: TGameState, action: TAction) => {
   switch (action.type) {
     case 'INCREASE_MOVES': {
       return {
@@ -49,10 +49,10 @@ const reducer = (state: TGameStatsState, action: TAction) => {
   }
 };
 
-const useGameStats = (gameSetup: TGameSetup) => {
+const useGameState = (gameSetup: TGameSetup) => {
   const players = parseInt(gameSetup.players, 10);
 
-  const [gameStats, dispatch] = useReducer(reducer, {
+  const [gameState, dispatch] = useReducer(reducer, {
     players,
     isMultiPlayer: players > 1,
     points: Array(players).fill(0),
@@ -76,7 +76,7 @@ const useGameStats = (gameSetup: TGameSetup) => {
     dispatch({ type: 'CHANGE_PLAYER' });
   }, [dispatch]);
 
-  return { increaseMoves, addPoint, resetMoves, changePlayer, gameStats };
+  return { increaseMoves, addPoint, resetMoves, changePlayer, gameState };
 };
 
-export default useGameStats;
+export default useGameState;
