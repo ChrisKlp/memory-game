@@ -27,6 +27,15 @@ const Text = styled('p', {
           lineHeight: '2.2rem',
         },
       },
+      medium: {
+        fontSize: '1.3rem',
+        lineHeight: '1.6rem',
+
+        '@md': {
+          fontSize: '1.8rem',
+          lineHeight: '2.2rem',
+        },
+      },
       h1: {
         fontSize: '2.4rem',
         lineHeight: '3rem',

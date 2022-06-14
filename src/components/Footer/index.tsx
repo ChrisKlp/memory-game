@@ -1,14 +1,14 @@
 import Wrapper from 'components/Footer/style';
 import StatusCard from 'components/StatusCard';
-import { TGameStatsState } from 'hooks/useGameStats';
+import { TGameState } from 'hooks/useGameState';
 
 type Props = {
-  gameStats: TGameStatsState;
+  gameState: TGameState;
   className?: string;
 };
 
-function Footer({ gameStats, className }: Props) {
-  const { activePlayer, moves, points, isMultiPlayer } = gameStats;
+function Footer({ gameState, className }: Props) {
+  const { activePlayer, moves, points, isMultiPlayer } = gameState;
   return (
     <Wrapper className={className}>
       {isMultiPlayer ? (
