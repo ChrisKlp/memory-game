@@ -1,5 +1,12 @@
 import { useCallback, useReducer } from 'react';
-import { CardStates, Sizes, TGameBoardState, TGameCard } from 'models';
+import {
+  CardStates,
+  Sizes,
+  TGameBoardState,
+  TGameCard,
+  TGameSetup,
+} from 'models';
+import { gameIcons } from 'gameOptions';
 
 type TAction =
   | { type: 'SET_ACTIVE'; payload: number }
@@ -23,12 +30,28 @@ const setValue = (index: number) => {
   return index;
 };
 
+const getRandomIndex = (items: any[]) => {
+  return Math.floor(Math.random() * items.length);
+};
+
+const generateIcons = (amount: number) => {
+  const newGameIcons = [...gameIcons];
+  const randomIndex = getRandomIndex(newGameIcons);
+
+  return Array(amount / 2)
+    .fill(null)
+    .map(() => newGameIcons.splice(randomIndex, 1)[0])
+    .flatMap((item) => [item, item]);
+};
+
 const createGameBoard = (amount: number): TGameCard[] => {
+  const icons = generateIcons(amount);
   return Array(amount)
     .fill(null)
     .map((_, i) => ({
       id: i,
       value: setValue(i),
+      icon: icons[i],
       state: CardStates.hidden,
     }))
     .sort(() => (Math.random() > 0.5 ? 1 : -1));
@@ -86,9 +109,11 @@ const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
   }
 };
 
-const useGameBoard = (size: string) => {
+const useGameBoard = (gameSetup: TGameSetup) => {
+  const gameSize = gameSetup.size === Sizes.big ? 36 : 16;
+
   const [gameBoard, dispatch] = useReducer(reducer, {
-    cards: createGameBoard(size === Sizes.big ? 36 : 16),
+    cards: createGameBoard(gameSize),
     activeCards: [],
   });
 
@@ -112,8 +137,11 @@ const useGameBoard = (size: string) => {
   }, [dispatch]);
 
   const resetCards = useCallback(() => {
-    dispatch({ type: 'RESET_CARDS', payload: size });
-  }, [dispatch, size]);
+    dispatch({
+      type: 'RESET_CARDS',
+      payload: gameSetup.size,
+    });
+  }, [gameSetup.size]);
 
   return {
     setCardActive,

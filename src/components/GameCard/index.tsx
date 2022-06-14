@@ -1,17 +1,23 @@
 import * as S from 'components/GameCard/style';
-import { CardStates } from 'models';
+import { CardStates, Themes } from 'models';
 
 type Props = {
   value: string;
+  icon: string;
+  theme: string;
   state: CardStates;
   big?: boolean;
   onClick: () => void;
 };
 
-function GameCard({ value, state, big, onClick }: Props) {
+function GameCard({ value, theme, icon, state, big, onClick }: Props) {
   return (
     <S.Wrapper state={state} big={big} onClick={onClick}>
-      <S.Value>{value}</S.Value>
+      {theme === Themes.icons ? (
+        <S.Icon className={`fa-solid ${icon}`} />
+      ) : (
+        <S.Value>{value}</S.Value>
+      )}
     </S.Wrapper>
   );
 }

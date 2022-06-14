@@ -1,12 +1,12 @@
 import GameCard from 'components/GameCard';
-import { TGameCard, TGameState, Sizes, CardStates } from 'models';
+import { TGameCard, TGameState, Sizes, CardStates, TGameSetup } from 'models';
 import * as S from 'views/MainGame/style';
 
 type Props = {
   activeCards: TGameCard[];
   cards: TGameCard[];
-  size: string;
   handleCardClick: (id: number) => void;
+  gameSetup: TGameSetup;
   gameState: TGameState;
   handleNewGame: () => void;
   handleRestart: () => void;
@@ -15,12 +15,13 @@ type Props = {
 function MainGame({
   activeCards,
   cards,
-  size,
   handleCardClick,
+  gameSetup,
   gameState,
   handleNewGame,
   handleRestart,
 }: Props) {
+  const { size, theme } = gameSetup;
   return (
     <S.Container>
       <S.StyledHeader
@@ -28,9 +29,11 @@ function MainGame({
         handleRestart={handleRestart}
       />
       <S.Board small={size === Sizes.small} disabled={activeCards.length === 2}>
-        {cards.map(({ id, state, value }) => (
+        {cards.map(({ id, state, value, icon }) => (
           <GameCard
             key={id}
+            theme={theme}
+            icon={icon}
             value={value.toString()}
             state={state}
             big={size === Sizes.small}

@@ -7,6 +7,13 @@ export const Value = styled('span', {
   fontWeight: 700,
 });
 
+export const Icon = styled('i', {
+  color: '$light',
+  fontSize: '2.4rem',
+  lineHeight: '3rem',
+  fontWeight: 700,
+});
+
 export const Wrapper = styled('button', {
   display: 'grid',
   placeItems: 'center',
@@ -34,7 +41,7 @@ export const Wrapper = styled('button', {
           backgroundColor: '$blue500',
         },
 
-        [`& ${Value}`]: {
+        [`& ${Value}, & ${Icon}`]: {
           display: 'none',
         },
       },

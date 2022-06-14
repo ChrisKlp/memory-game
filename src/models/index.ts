@@ -38,6 +38,7 @@ export type TGameState = {
 export type TGameCard = {
   id: number;
   value: number;
+  icon: string;
   state: CardStates;
 };
 

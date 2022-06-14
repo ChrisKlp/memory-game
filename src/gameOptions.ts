@@ -18,4 +18,29 @@ const gameOptions: TGameOptions = [
   },
 ];
 
+// <i class="fa-solid fa-acorn"></i>
+export const gameIcons = [
+  'fa-cat',
+  'fa-fish',
+  'fa-frog',
+  'fa-dragon',
+  'fa-user-astronaut',
+  'fa-moon',
+  'fa-bus',
+  'fa-truck-monster',
+  'fa-drum',
+  'fa-guitar',
+  'fa-skull',
+  'fa-ghost',
+  'fa-camera-retro',
+  'fa-film',
+  'fa-images',
+  'fa-trash',
+  'fa-pen-ruler',
+  'fa-map',
+  'fa-route',
+  'fa-plug',
+  'fa-sun',
+];
+
 export default gameOptions;

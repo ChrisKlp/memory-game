@@ -18,9 +18,9 @@ function Game({ gameSetup, handleNewGame }: Props) {
       <MainGame
         activeCards={activeCards}
         cards={cards}
-        size={gameSetup.size}
         handleCardClick={handleCardClick}
         gameState={gameState}
+        gameSetup={gameSetup}
         handleNewGame={handleNewGame}
         handleRestart={handleRestart}
       />

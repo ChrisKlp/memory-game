@@ -11,7 +11,7 @@ const useGame = (gameSetup: TGameSetup) => {
     resetActiveCards,
     resetCards,
     gameBoard: { activeCards, cards },
-  } = useGameBoard(gameSetup.size);
+  } = useGameBoard(gameSetup);
 
   const {
     increaseMoves,
