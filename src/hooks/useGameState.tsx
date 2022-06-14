@@ -7,13 +7,15 @@ export type TGameState = {
   activePlayer: number;
   moves: number;
   isMultiPlayer: boolean;
+  isGameOver: boolean;
 };
 
 type TAction =
   | { type: 'INCREASE_MOVES' }
   | { type: 'RESET_MOVES' }
   | { type: 'ADD_POINT' }
-  | { type: 'CHANGE_PLAYER' };
+  | { type: 'CHANGE_PLAYER' }
+  | { type: 'SET_GAME_OVER' };
 
 const reducer = (state: TGameState, action: TAction) => {
   switch (action.type) {
@@ -44,6 +46,12 @@ const reducer = (state: TGameState, action: TAction) => {
           state.activePlayer === state.players ? 1 : state.activePlayer + 1,
       };
     }
+    case 'SET_GAME_OVER': {
+      return {
+        ...state,
+        isGameOver: true,
+      };
+    }
     default:
       return state;
   }
@@ -58,6 +66,7 @@ const useGameState = (gameSetup: TGameSetup) => {
     points: Array(players).fill(0),
     activePlayer: 1,
     moves: 0,
+    isGameOver: false,
   });
 
   const increaseMoves = useCallback(() => {
@@ -76,7 +85,18 @@ const useGameState = (gameSetup: TGameSetup) => {
     dispatch({ type: 'CHANGE_PLAYER' });
   }, [dispatch]);
 
-  return { increaseMoves, addPoint, resetMoves, changePlayer, gameState };
+  const setGameOver = useCallback(() => {
+    dispatch({ type: 'SET_GAME_OVER' });
+  }, [dispatch]);
+
+  return {
+    increaseMoves,
+    addPoint,
+    resetMoves,
+    changePlayer,
+    setGameOver,
+    gameState,
+  };
 };
 
 export default useGameState;
