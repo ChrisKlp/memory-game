@@ -8,13 +8,6 @@ import {
 } from 'models';
 import { gameIcons } from 'gameOptions';
 
-type TAction =
-  | { type: 'SET_ACTIVE'; payload: number }
-  | { type: 'SET_REVEALED' }
-  | { type: 'SET_HIDDEN' }
-  | { type: 'RESET_ACTIVE_CARDS' }
-  | { type: 'RESET_CARDS'; payload: string };
-
 const setValue = (index: number) => {
   if (index % 2 === 1) {
     if (index > 1) {
@@ -36,11 +29,10 @@ const getRandomIndex = (items: any[]) => {
 
 const generateIcons = (amount: number) => {
   const newGameIcons = [...gameIcons];
-  const randomIndex = getRandomIndex(newGameIcons);
 
   return Array(amount / 2)
     .fill(null)
-    .map(() => newGameIcons.splice(randomIndex, 1)[0])
+    .map(() => newGameIcons.splice(getRandomIndex(newGameIcons), 1)[0])
     .flatMap((item) => [item, item]);
 };
 
@@ -56,6 +48,13 @@ const createGameBoard = (amount: number): TGameCard[] => {
     }))
     .sort(() => (Math.random() > 0.5 ? 1 : -1));
 };
+
+type TAction =
+  | { type: 'SET_ACTIVE'; payload: number }
+  | { type: 'SET_REVEALED' }
+  | { type: 'SET_HIDDEN' }
+  | { type: 'RESET_ACTIVE_CARDS' }
+  | { type: 'RESET_CARDS'; payload: string };
 
 const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
   switch (action.type) {

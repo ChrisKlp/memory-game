@@ -14,7 +14,7 @@ function GameCard({ value, theme, icon, state, big, onClick }: Props) {
   return (
     <S.Wrapper state={state} big={big} onClick={onClick}>
       {theme === Themes.icons ? (
-        <S.Icon className={`fa-solid ${icon}`} />
+        <S.Value as="i" className={`fa-solid ${icon}`} />
       ) : (
         <S.Value>{value}</S.Value>
       )}

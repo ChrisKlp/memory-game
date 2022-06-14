@@ -1,5 +1,5 @@
 import GameCard from 'components/GameCard';
-import { TGameCard, TGameState, Sizes, CardStates, TGameSetup } from 'models';
+import { CardStates, Sizes, TGameCard, TGameSetup, TGameState } from 'models';
 import * as S from 'views/MainGame/style';
 
 type Props = {
