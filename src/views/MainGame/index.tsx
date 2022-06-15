@@ -1,32 +1,45 @@
 import GameCard from 'components/GameCard';
-import { CardStates, Sizes, TGameCard, TGameSetup, TGameState } from 'models';
+import {
+  CardStates,
+  Sizes,
+  TGameCard,
+  TGameSetup,
+  TGameState,
+  TimerStates,
+} from 'models';
 import * as S from 'views/MainGame/style';
 
 type Props = {
   activeCards: TGameCard[];
   cards: TGameCard[];
-  handleCardClick: (id: number) => void;
+  clock: string;
   gameSetup: TGameSetup;
   gameState: TGameState;
+  handleCardClick: (id: number) => void;
   handleNewGame: () => void;
   handleRestart: () => void;
+  setTimerState: (state: TimerStates) => void;
 };
 
 function MainGame({
   activeCards,
   cards,
-  handleCardClick,
+  clock,
   gameSetup,
   gameState,
+  handleCardClick,
   handleNewGame,
   handleRestart,
+  setTimerState,
 }: Props) {
   const { size, theme } = gameSetup;
+
   return (
     <S.Container>
       <S.StyledHeader
         handleNewGame={handleNewGame}
         handleRestart={handleRestart}
+        setTimerState={setTimerState}
       />
       <S.Board small={size === Sizes.small} disabled={activeCards.length === 2}>
         {cards.map(({ id, state, value, icon }) => (
@@ -41,7 +54,7 @@ function MainGame({
           />
         ))}
       </S.Board>
-      <S.StyledFooter gameState={gameState} />
+      <S.StyledFooter gameState={gameState} clock={clock} />
     </S.Container>
   );
 }

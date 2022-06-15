@@ -6,10 +6,12 @@ import StartGame from 'views/StartGame';
 
 function App() {
   const {
+    clock,
+    setTimerState,
     gameSetup,
+    handleNewGame,
     handleStartGameClick,
     handleStartGameSelect,
-    handleNewGame,
     isGameStarted,
   } = useStartGame(gameOptions);
 
@@ -20,11 +22,16 @@ function App() {
         <StartGame
           gameOptions={gameOptions}
           gameSetup={gameSetup}
-          handleStartGameSelect={handleStartGameSelect}
           handleStartGameClick={handleStartGameClick}
+          handleStartGameSelect={handleStartGameSelect}
         />
       ) : (
-        <Game gameSetup={gameSetup} handleNewGame={handleNewGame} />
+        <Game
+          gameSetup={gameSetup}
+          handleNewGame={handleNewGame}
+          clock={clock}
+          setTimerState={setTimerState}
+        />
       )}
     </main>
   );

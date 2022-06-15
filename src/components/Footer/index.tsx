@@ -5,9 +5,10 @@ import { TGameState } from 'models';
 type Props = {
   gameState: TGameState;
   className?: string;
+  clock: string;
 };
 
-function Footer({ gameState, className }: Props) {
+function Footer({ gameState, className, clock }: Props) {
   const { activePlayer, moves, points, isMultiPlayer } = gameState;
   return (
     <Wrapper className={className}>
@@ -27,7 +28,7 @@ function Footer({ gameState, className }: Props) {
         })
       ) : (
         <>
-          <StatusCard label="Time" value="1:53" />
+          <StatusCard label="Time" value={clock} />
           <StatusCard label="Moves" value={moves.toString()} />
         </>
       )}

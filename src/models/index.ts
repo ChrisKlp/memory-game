@@ -14,6 +14,12 @@ export enum CardStates {
   revealed = 'revealed',
 }
 
+export enum TimerStates {
+  start,
+  stop,
+  reset,
+}
+
 export type TGameOptions = {
   name: string;
   label: string;
@@ -45,4 +51,9 @@ export type TGameCard = {
 export type TGameBoardState = {
   cards: TGameCard[];
   activeCards: TGameCard[];
+};
+
+export type TTimer = {
+  clock: string;
+  setTimerState: (state: TimerStates) => void;
 };
