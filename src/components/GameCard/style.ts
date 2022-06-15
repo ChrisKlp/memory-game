@@ -5,20 +5,23 @@ export const Value = styled('span', {
   fontSize: '2.4rem',
   lineHeight: '3rem',
   fontWeight: 700,
+
+  '@md': {
+    fontSize: '4rem',
+    lineHeight: '5rem',
+  },
 });
 
 export const Wrapper = styled('button', {
   display: 'grid',
   placeItems: 'center',
-  width: '4.7rem',
+  width: 'clamp(4.7rem, 12vw, 8.2rem)',
   aspectRatio: '1',
   backgroundColor: '$blue200',
   borderRadius: '50%',
   border: 0,
 
   '@md': {
-    width: '8.2rem',
-
     [`& ${Value}`]: {
       fontSize: '4rem',
       lineHeight: '5rem',
@@ -49,15 +52,18 @@ export const Wrapper = styled('button', {
     },
     big: {
       true: {
-        width: '7.2rem',
+        width: 'clamp(7.2rem, 12vw, 11rem)',
 
         [`& ${Value}`]: {
-          fontSize: '4rem',
-          lineHeight: '5rem',
+          fontSize: '3.6rem',
+          lineHeight: '4.2rem',
         },
 
         '@md': {
-          width: '11.8rem',
+          [`& ${Value}`]: {
+            fontSize: '5rem',
+            lineHeight: '6rem',
+          },
         },
       },
     },

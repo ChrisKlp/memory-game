@@ -9,7 +9,7 @@ export const Container = styled('div', {
   alignItems: 'center',
   gridTemplateRows: 'auto 1fr auto',
   width: '87.2%',
-  minHeight: '100vh',
+  height: '100vh',
   maxWidth: '110rem',
 });
 
