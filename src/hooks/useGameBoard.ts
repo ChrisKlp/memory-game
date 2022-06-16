@@ -1,12 +1,6 @@
-import { useCallback, useReducer } from 'react';
-import {
-  CardStates,
-  Sizes,
-  TGameBoardState,
-  TGameCard,
-  TGameSetup,
-} from 'models';
 import { gameIcons } from 'gameOptions';
+import { CardStates, Sizes, TGameBoardState, TGameCard } from 'models';
+import { useCallback, useReducer } from 'react';
 
 const setValue = (index: number) => {
   if (index % 2 === 1) {
@@ -54,7 +48,7 @@ type TAction =
   | { type: 'SET_REVEALED' }
   | { type: 'SET_HIDDEN' }
   | { type: 'RESET_ACTIVE_CARDS' }
-  | { type: 'RESET_CARDS'; payload: string };
+  | { type: 'RESET_CARDS'; payload: number };
 
 const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
   switch (action.type) {
@@ -99,7 +93,7 @@ const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
     }
     case 'RESET_CARDS': {
       return {
-        cards: createGameBoard(action.payload === Sizes.big ? 36 : 16),
+        cards: createGameBoard(action.payload),
         activeCards: [],
       };
     }
@@ -108,8 +102,8 @@ const reducer = (state: TGameBoardState, action: TAction): TGameBoardState => {
   }
 };
 
-const useGameBoard = (gameSetup: TGameSetup) => {
-  const gameSize = gameSetup.size === Sizes.big ? 36 : 16;
+const useGameBoard = (size: Sizes) => {
+  const gameSize = size === Sizes.big ? 36 : 16;
 
   const [gameBoard, dispatch] = useReducer(reducer, {
     cards: createGameBoard(gameSize),
@@ -138,17 +132,17 @@ const useGameBoard = (gameSetup: TGameSetup) => {
   const resetCards = useCallback(() => {
     dispatch({
       type: 'RESET_CARDS',
-      payload: gameSetup.size,
+      payload: gameSize,
     });
-  }, [gameSetup.size]);
+  }, [dispatch, gameSize]);
 
   return {
+    gameBoard,
     setCardActive,
     setCardsRevealed,
     setCardsHidden,
     resetActiveCards,
     resetCards,
-    gameBoard,
   };
 };
 

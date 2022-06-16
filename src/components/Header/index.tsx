@@ -1,31 +1,32 @@
 import Button from 'components/Button';
 import * as S from 'components/Header/style';
 import Modal from 'components/Modal';
-import { TimerStates } from 'models';
 import { useState } from 'react';
 
 type Props = {
   className?: string;
   handleNewGame: () => void;
   handleRestart: () => void;
-  setTimerState: (state: TimerStates) => void;
+  startTimer: () => void;
+  stopTimer: () => void;
 };
 
 function Header({
   className,
   handleNewGame,
   handleRestart,
-  setTimerState,
+  startTimer,
+  stopTimer,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpenMenu = () => {
-    setTimerState(TimerStates.stop);
+    stopTimer();
     setIsOpen(true);
   };
 
   const handleCloseMenu = () => {
-    setTimerState(TimerStates.start);
+    startTimer();
     setIsOpen(false);
   };
 

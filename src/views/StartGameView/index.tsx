@@ -3,21 +3,21 @@ import Button from 'components/Button';
 import SelectButton from 'components/SelectButton';
 import Text from 'components/Text';
 import * as S from 'views/StartGameView/style';
-import { TGameSetup, TGameOptions } from 'models';
+import { TGameSetup, TGameOptions, Sizes, Themes } from 'models';
 import { motion } from 'framer-motion';
 
 type Props = {
   gameSetup: TGameSetup;
   gameOptions: TGameOptions;
-  handleStartGameSelect: (name: string, option: string) => void;
-  handleStartGameClick: () => void;
+  handleUpdateSetup: (name: string, option: number | Themes | Sizes) => void;
+  handleStartGame: () => void;
 };
 
 function StartGameView({
   gameSetup,
   gameOptions,
-  handleStartGameSelect,
-  handleStartGameClick,
+  handleUpdateSetup,
+  handleStartGame,
 }: Props) {
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -56,7 +56,7 @@ function StartGameView({
                     <SelectButton
                       key={option}
                       isActive={gameSetup[name as keyof TGameSetup] === option}
-                      onClick={() => handleStartGameSelect(name, option)}
+                      onClick={() => handleUpdateSetup(name, option)}
                     >
                       {option}
                     </SelectButton>
@@ -68,7 +68,7 @@ function StartGameView({
           <Button
             as={motion.button}
             big
-            onClick={handleStartGameClick}
+            onClick={handleStartGame}
             whileHover={{ scale: 1.01 }}
           >
             Start Game

@@ -23,22 +23,30 @@ export enum TimerStates {
 export type TGameOptions = {
   name: string;
   label: string;
-  options: string[] | Themes[] | Sizes[];
+  options: number[] | Themes[] | Sizes[];
 }[];
 
 export type TGameSetup = {
-  players: '1' | '2' | '3' | '4';
-  size: '6x6' | '4x4';
-  theme: 'Numbers' | 'Icons';
+  players: 1 | 2 | 3 | 4;
+  size: Sizes;
+  theme: Themes;
 };
 
-export type TGameState = {
-  players: number;
-  points: number[];
-  activePlayer: number;
+export type TPlayerState = {
+  name: string;
+  pairs: number;
   moves: number;
-  isMultiPlayer: boolean;
-  isGameOver: boolean;
+  isActive: boolean;
+};
+
+export type TPlayersState = TPlayerState[];
+
+export type TGameState = {
+  setup: TGameSetup;
+  isStarted: boolean;
+  isMulti: boolean;
+  isEnded: boolean;
+  sessionId: number;
 };
 
 export type TGameCard = {
@@ -55,5 +63,14 @@ export type TGameBoardState = {
 
 export type TTimer = {
   clock: string;
-  setTimerState: (state: TimerStates) => void;
+  startTimer: () => void;
+  stopTimer: () => void;
+  resetTimer: () => void;
 };
+
+export type TScores = {
+  isWinner: boolean;
+  name: string;
+  pairs: number;
+  moves: number;
+}[];

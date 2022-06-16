@@ -1,26 +1,37 @@
 import * as S from 'components/ScoreList/style';
 import Text from 'components/Text';
-import { TScores, TSingleScore } from 'views/EndGame';
+import { TScores } from 'models';
 
 type Props = {
-  scores?: TScores;
-  singleScore?: TSingleScore;
-  isMultiPlayer: boolean;
+  clock: string;
+  scores: TScores;
+  isMulti: boolean;
 };
 
-function SingleScoreList({ singleScore }: { singleScore: TSingleScore }) {
+type SingleScoreListProps = {
+  scores: TScores;
+  clock: string;
+};
+
+function SingleScoreList({ scores, clock }: SingleScoreListProps) {
   return (
     <>
-      {Object.entries(singleScore).map(([key, value]) => (
-        <S.ScoreItem key={key}>
-          <Text as="span" size="medium">
-            {key === 'time' ? 'Time Elapsed' : 'Moves Taken'}
-          </Text>
-          <Text as="span" size="h2" color="dark">
-            {key === 'moves' ? `${value} Moves` : value}
-          </Text>
-        </S.ScoreItem>
-      ))}
+      <S.ScoreItem>
+        <Text as="span" size="medium">
+          Time Elapsed
+        </Text>
+        <Text as="span" size="h2" color="dark">
+          {clock}
+        </Text>
+      </S.ScoreItem>
+      <S.ScoreItem>
+        <Text as="span" size="medium">
+          Moves Taken
+        </Text>
+        <Text as="span" size="h2" color="dark">
+          {`${scores[0].moves} Moves`}
+        </Text>
+      </S.ScoreItem>
     </>
   );
 }
@@ -28,13 +39,13 @@ function SingleScoreList({ singleScore }: { singleScore: TSingleScore }) {
 function MultiScoreList({ scores }: { scores: TScores }) {
   return (
     <>
-      {scores.map(({ isWinner, player, points }) => (
-        <S.ScoreItem key={player} dark={isWinner}>
+      {scores.map(({ isWinner, name, pairs }) => (
+        <S.ScoreItem key={name} dark={isWinner}>
           <Text size="medium">
-            Player {isWinner ? `${player} (Winner!)` : player}
+            Player {name[1]} {isWinner && '(Winner!)'}
           </Text>
           <Text size="h2" color="dark">
-            {`${points} Pairs`}
+            {`${pairs} Pairs`}
           </Text>
         </S.ScoreItem>
       ))}
@@ -42,13 +53,13 @@ function MultiScoreList({ scores }: { scores: TScores }) {
   );
 }
 
-function ScoreList({ scores, singleScore, isMultiPlayer }: Props) {
+function ScoreList({ scores, clock, isMulti }: Props) {
   return (
     <S.Wrapper>
-      {isMultiPlayer && scores ? (
+      {isMulti ? (
         <MultiScoreList scores={scores} />
       ) : (
-        singleScore && <SingleScoreList singleScore={singleScore} />
+        <SingleScoreList scores={scores} clock={clock} />
       )}
     </S.Wrapper>
   );

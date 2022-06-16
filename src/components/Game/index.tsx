@@ -1,25 +1,83 @@
-import Modal from 'components/Modal';
+import { useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import useGame from 'hooks/useGame';
-import { TGameSetup, TimerStates } from 'models';
-import EndGameView from 'views/EndGameView';
+import useGameBoard from 'hooks/useGameBoard';
+import usePlayers from 'hooks/usePlayers';
+import { CardStates, TGameState } from 'models';
 import MainGameView from 'views/MainGameView';
+import Modal from 'components/Modal';
+import EndGameView from 'views/EndGameView';
 
 type Props = {
-  gameSetup: TGameSetup;
+  gameState: TGameState;
   handleNewGame: () => void;
-  clock: string;
-  setTimerState: (state: TimerStates) => void;
+  handleRestart: () => void;
+  handleEndGame: () => void;
+  timer: {
+    clock: string;
+    startTimer: () => void;
+    stopTimer: () => void;
+  };
 };
 
-function Game({ gameSetup, handleNewGame, clock, setTimerState }: Props) {
-  const { activeCards, cards, gameState, handleCardClick, handleRestart } =
-    useGame(gameSetup);
+function Game({
+  gameState,
+  handleNewGame,
+  handleRestart,
+  handleEndGame,
+  timer,
+}: Props) {
+  const { players, addMove, addPoint, changePlayer } = usePlayers(
+    gameState.setup.players
+  );
+  const {
+    gameBoard: { activeCards, cards },
+    setCardActive,
+    setCardsHidden,
+    setCardsRevealed,
+    resetActiveCards,
+  } = useGameBoard(gameState.setup.size);
 
-  const handleRestartGame = () => {
-    setTimerState(TimerStates.reset);
-    handleRestart();
+  const handleCardClick = (id: number) => {
+    setCardActive(id);
+    if (!gameState.isMulti) addMove();
   };
+
+  const handleEndOfTurn = useCallback(() => {
+    const [firstCard, secondCard] = activeCards;
+
+    if (firstCard.value === secondCard.value) {
+      if (gameState.isMulti) addPoint();
+      setCardsRevealed();
+    } else {
+      if (gameState.isMulti) changePlayer();
+      setCardsHidden();
+    }
+
+    resetActiveCards();
+  }, [
+    activeCards,
+    addPoint,
+    changePlayer,
+    gameState.isMulti,
+    resetActiveCards,
+    setCardsHidden,
+    setCardsRevealed,
+  ]);
+
+  useEffect(() => {
+    if (cards.every((card) => card.state === CardStates.revealed)) {
+      handleEndGame();
+    }
+
+    if (activeCards.length < 2) return undefined;
+
+    const endOfTurnTimer = setTimeout(() => {
+      handleEndOfTurn();
+    }, 1000);
+    return () => {
+      clearInterval(endOfTurnTimer);
+    };
+  }, [activeCards.length, cards, handleEndGame, handleEndOfTurn]);
 
   return (
     <motion.div
@@ -28,22 +86,23 @@ function Game({ gameSetup, handleNewGame, clock, setTimerState }: Props) {
       exit={{ opacity: 0 }}
     >
       <MainGameView
-        activeCards={activeCards}
+        boardDisabled={activeCards.length === 2}
         cards={cards}
-        clock={clock}
-        gameSetup={gameSetup}
+        players={players}
+        timer={timer}
         gameState={gameState}
         handleCardClick={handleCardClick}
         handleNewGame={handleNewGame}
-        handleRestart={handleRestartGame}
-        setTimerState={setTimerState}
+        handleRestart={handleRestart}
       />
-      {gameState.isGameOver && (
+      {gameState.isEnded && (
         <Modal>
           <EndGameView
+            clock={timer.clock}
+            players={players}
             gameState={gameState}
             handleNewGame={handleNewGame}
-            handleRestart={handleRestartGame}
+            handleRestart={handleRestart}
           />
         </Modal>
       )}

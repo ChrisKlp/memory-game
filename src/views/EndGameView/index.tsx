@@ -1,62 +1,53 @@
 /* eslint-disable no-debugger */
+import { useMemo } from 'react';
 import ScoreList from 'components/ScoreList';
 import Text from 'components/Text';
-import { TGameState } from 'models';
-import { useMemo } from 'react';
+import { TGameState, TPlayersState, TScores } from 'models';
 import * as S from 'views/EndGameView/style';
 
-export type TScores = {
-  isWinner: boolean;
-  player: number;
-  points: number;
-}[];
-
-export type TSingleScore = {
-  time: string;
-  moves: number;
-};
-
 type Props = {
+  clock: string;
+  players: TPlayersState;
   gameState: TGameState;
-  handleNewGame: (cb?: () => void) => void;
-  handleRestart: (cb?: () => void) => void;
+  handleNewGame: () => void;
+  handleRestart: () => void;
 };
 
-function EndGameView({ gameState, handleNewGame, handleRestart }: Props) {
-  const { isMultiPlayer, points, moves } = gameState;
-
-  const singleScore: TSingleScore = {
-    time: '1:52',
-    moves,
-  };
-
+function EndGameView({
+  clock,
+  players,
+  gameState: { isMulti },
+  handleNewGame,
+  handleRestart,
+}: Props) {
   const scores = useMemo<TScores>(() => {
-    const topScore = Math.max(...points);
+    const topScore = [...players].sort((a, b) => b.pairs - a.pairs)[0].pairs;
 
-    return [...points]
-      .map((point, i) => {
-        const isWinner = point === topScore;
+    return [...players]
+      .map(({ name, moves, pairs }) => {
+        const isWinner = pairs === topScore;
         return {
-          player: i + 1,
-          points: point,
+          name,
+          pairs,
+          moves,
           isWinner,
         };
       })
-      .sort((a, b) => b.points - a.points);
-  }, [points]);
+      .sort((a, b) => b.pairs - a.pairs);
+  }, [players]);
 
   const getMultiPlayerHeading = () => {
     const winners = scores.filter((i) => i.isWinner);
     if (winners.length > 1) return 'It’s a tie!';
-    return `Player ${winners[0].player} Wins!`;
+    return `Player ${winners[0].name[1]} Wins!`;
   };
 
   const getHeading = () => {
-    if (isMultiPlayer) return getMultiPlayerHeading();
+    if (isMulti) return getMultiPlayerHeading();
     return 'You did it!';
   };
 
-  const infoText = isMultiPlayer
+  const infoText = isMulti
     ? 'Game over! Here are the results…'
     : 'Game over! Here’s how you got on…';
 
@@ -68,11 +59,7 @@ function EndGameView({ gameState, handleNewGame, handleRestart }: Props) {
         </Text>
         <Text>{infoText}</Text>
       </S.Header>
-      <ScoreList
-        scores={scores}
-        singleScore={singleScore}
-        isMultiPlayer={isMultiPlayer}
-      />
+      <ScoreList scores={scores} isMulti={isMulti} clock={clock} />
       <S.ButtonsGroup>
         <S.StyledBigButton onClick={() => handleRestart()} big>
           Restart

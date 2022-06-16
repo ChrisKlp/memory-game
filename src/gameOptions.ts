@@ -9,7 +9,7 @@ const gameOptions: TGameOptions = [
   {
     name: 'players',
     label: 'Numbers of Players',
-    options: ['1', '2', '3', '4'],
+    options: [1, 2, 3, 4],
   },
   {
     name: 'size',

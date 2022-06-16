@@ -3,45 +3,47 @@ import {
   CardStates,
   Sizes,
   TGameCard,
-  TGameSetup,
   TGameState,
-  TimerStates,
+  TPlayersState,
 } from 'models';
 import * as S from 'views/MainGameView/style';
 
 type Props = {
-  activeCards: TGameCard[];
+  boardDisabled: boolean;
   cards: TGameCard[];
-  clock: string;
-  gameSetup: TGameSetup;
+  players: TPlayersState;
   gameState: TGameState;
   handleCardClick: (id: number) => void;
   handleNewGame: () => void;
   handleRestart: () => void;
-  setTimerState: (state: TimerStates) => void;
+  timer: {
+    clock: string;
+    startTimer: () => void;
+    stopTimer: () => void;
+  };
 };
 
 function MainGameView({
-  activeCards,
+  boardDisabled,
   cards,
-  clock,
-  gameSetup,
+  players,
   gameState,
   handleCardClick,
   handleNewGame,
   handleRestart,
-  setTimerState,
+  timer: { clock, startTimer, stopTimer },
 }: Props) {
-  const { size, theme } = gameSetup;
+  const { size, theme } = gameState.setup;
 
   return (
     <S.Container>
       <S.StyledHeader
         handleNewGame={handleNewGame}
         handleRestart={handleRestart}
-        setTimerState={setTimerState}
+        startTimer={startTimer}
+        stopTimer={stopTimer}
       />
-      <S.Board small={size === Sizes.small} disabled={activeCards.length === 2}>
+      <S.Board small={size === Sizes.small} disabled={boardDisabled}>
         {cards.map(({ id, state, value, icon }) => (
           <GameCard
             key={id}
@@ -54,7 +56,11 @@ function MainGameView({
           />
         ))}
       </S.Board>
-      <S.StyledFooter gameState={gameState} clock={clock} />
+      <S.StyledFooter
+        isMulti={gameState.isMulti}
+        players={players}
+        clock={clock}
+      />
     </S.Container>
   );
 }

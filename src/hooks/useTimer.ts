@@ -1,4 +1,4 @@
-import { TimerStates, TTimer } from 'models';
+import { TTimer } from 'models';
 import { useEffect, useState } from 'react';
 
 const useTimer = (): TTimer => {
@@ -25,24 +25,11 @@ const useTimer = (): TTimer => {
     return `${minutes}:${seconds}`;
   };
 
-  const setTimerState = (state: TimerStates) => {
-    switch (state) {
-      case TimerStates.start: {
-        return setStop(false);
-      }
-      case TimerStates.stop: {
-        return setStop(true);
-      }
-      case TimerStates.reset: {
-        return setTime(0);
-      }
-      default: {
-        return setTime(0);
-      }
-    }
-  };
+  const startTimer = () => setStop(false);
+  const stopTimer = () => setStop(true);
+  const resetTimer = () => setTime(0);
 
-  return { clock: formatTime(), setTimerState };
+  return { clock: formatTime(), startTimer, stopTimer, resetTimer };
 };
 
 export default useTimer;

@@ -1,61 +1,68 @@
 import { useCallback, useReducer } from 'react';
-import { TGameState, TGameSetup } from 'models';
+import { TGameState, TGameSetup, TGameOptions, Sizes, Themes } from 'models';
+import useTimer from './useTimer';
+
+const initialSetup = (gameOptions: TGameOptions) =>
+  gameOptions.reduce(
+    (result, { name, options }) => ({
+      ...result,
+      [name]: options[0],
+    }),
+    {} as TGameSetup
+  );
+
+const initialState = (gameOptions: TGameOptions) => ({
+  isStarted: false,
+  isMulti: false,
+  isEnded: false,
+  sessionId: Date.now(),
+  setup: initialSetup(gameOptions),
+});
 
 type TAction =
-  | { type: 'INCREASE_MOVES' }
-  | { type: 'RESET_MOVES' }
-  | { type: 'RESET_POINTS' }
-  | { type: 'ADD_POINT' }
-  | { type: 'CHANGE_PLAYER'; payload: boolean }
-  | { type: 'SET_GAME_OVER'; payload: boolean };
+  | { type: 'SET_IS_STARTED'; payload: boolean }
+  | { type: 'SET_IS_MULTI' }
+  | { type: 'SET_IS_ENDED'; payload: boolean }
+  | { type: 'RESET_SETUP'; payload: TGameOptions }
+  | { type: 'RESET_SESSION' }
+  | {
+      type: 'UPDATE_SETUP';
+      payload: { name: string; option: number | Themes | Sizes };
+    };
 
 const reducer = (state: TGameState, action: TAction) => {
   switch (action.type) {
-    case 'INCREASE_MOVES': {
+    case 'SET_IS_STARTED': {
       return {
         ...state,
-        moves: state.moves + 1,
+        isStarted: action.payload,
       };
     }
-    case 'RESET_MOVES': {
+    case 'SET_IS_ENDED': {
       return {
         ...state,
-        moves: 0,
+        isEnded: action.payload,
       };
     }
-    case 'RESET_POINTS': {
+    case 'SET_IS_MULTI': {
       return {
         ...state,
-        points: Array(state.players).fill(0),
+        isMulti: state.setup.players > 1,
       };
     }
-    case 'ADD_POINT': {
-      return {
-        ...state,
-        points: state.points.map((point, i) =>
-          state.activePlayer === i + 1 ? point + 1 : point
-        ),
-      };
+    case 'RESET_SETUP': {
+      return initialState(action.payload);
     }
-    case 'CHANGE_PLAYER': {
-      const activePlayer = () => {
-        if (action.payload === true) {
-          return 1;
-        }
-        return state.activePlayer === state.players
-          ? 1
-          : state.activePlayer + 1;
-      };
-
-      return {
-        ...state,
-        activePlayer: activePlayer(),
-      };
+    case 'RESET_SESSION': {
+      return { ...state, sessionId: Date.now() };
     }
-    case 'SET_GAME_OVER': {
+    case 'UPDATE_SETUP': {
       return {
         ...state,
-        isGameOver: action.payload,
+        setup: {
+          ...state.setup,
+          [action.payload.name]: action.payload.option,
+        },
       };
     }
     default:
@@ -63,56 +70,55 @@ const reducer = (state: TGameState, action: TAction) => {
   }
 };
 
-const useGameState = (gameSetup: TGameSetup) => {
-  const players = parseInt(gameSetup.players, 10);
+const useGameState = (gameOptions: TGameOptions) => {
+  const [gameState, dispatch] = useReducer(reducer, initialState(gameOptions));
+  const { clock, startTimer, stopTimer, resetTimer } = useTimer();
 
-  const [gameState, dispatch] = useReducer(reducer, {
-    players,
-    isMultiPlayer: players > 1,
-    points: Array(players).fill(0),
-    activePlayer: 1,
-    moves: 0,
-    isGameOver: false,
-  });
+  const startGame = useCallback(() => {
+    const { players } = gameState.setup;
+    dispatch({ type: 'SET_IS_STARTED', payload: true });
+    dispatch({ type: 'SET_IS_MULTI' });
+    if (players === 1) startTimer();
+  }, [dispatch, gameState.setup, startTimer]);
 
-  const increaseMoves = useCallback(() => {
-    dispatch({ type: 'INCREASE_MOVES' });
-  }, [dispatch]);
+  const endGame = useCallback(() => {
+    dispatch({ type: 'SET_IS_ENDED', payload: true });
+    if (!gameState.isMulti) stopTimer();
+  }, [dispatch, gameState.isMulti, stopTimer]);
 
-  const addPoint = useCallback(() => {
-    dispatch({ type: 'ADD_POINT' });
-  }, [dispatch]);
+  const restartGame = useCallback(() => {
+    dispatch({ type: 'SET_IS_ENDED', payload: false });
+    dispatch({ type: 'RESET_SESSION' });
+    if (!gameState.isMulti) {
+      resetTimer();
+    }
+  }, [dispatch, gameState.isMulti, resetTimer]);
 
-  const resetMoves = useCallback(() => {
-    dispatch({ type: 'RESET_MOVES' });
-  }, [dispatch]);
+  const startNewSetup = useCallback(() => {
+    dispatch({ type: 'RESET_SETUP', payload: gameOptions });
+    resetTimer();
+    stopTimer();
+  }, [dispatch, gameOptions, resetTimer, stopTimer]);
 
-  const resetPoints = useCallback(() => {
-    dispatch({ type: 'RESET_POINTS' });
-  }, [dispatch]);
-
-  const changePlayer = useCallback(
-    (isGameReset = false) => {
-      dispatch({ type: 'CHANGE_PLAYER', payload: isGameReset });
-    },
-    [dispatch]
-  );
-
-  const setGameOver = useCallback(
-    (isGameOver: boolean) => {
-      dispatch({ type: 'SET_GAME_OVER', payload: isGameOver });
+  const updateSetup = useCallback(
+    (name: string, option: number | Themes | Sizes) => {
+      dispatch({ type: 'UPDATE_SETUP', payload: { name, option } });
     },
     [dispatch]
   );
 
   return {
-    increaseMoves,
-    addPoint,
-    resetMoves,
-    resetPoints,
-    changePlayer,
-    setGameOver,
+    timer: {
+      clock,
+      startTimer,
+      stopTimer,
+    },
+    endGame,
     gameState,
+    restartGame,
+    startGame,
+    startNewSetup,
+    updateSetup,
   };
 };
 

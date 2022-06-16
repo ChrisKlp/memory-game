@@ -1,35 +1,34 @@
 import Wrapper from 'components/Footer/style';
 import StatusCard from 'components/StatusCard';
-import { TGameState } from 'models';
+import { TPlayersState } from 'models';
 
 type Props = {
-  gameState: TGameState;
+  isMulti: boolean;
   className?: string;
   clock: string;
+  players: TPlayersState;
 };
 
-function Footer({ gameState, className, clock }: Props) {
-  const { activePlayer, moves, points, isMultiPlayer } = gameState;
+function Footer({ isMulti, players, className, clock }: Props) {
   return (
     <Wrapper className={className}>
-      {isMultiPlayer ? (
-        points?.map((value, i) => {
-          const name = `P${(i + 1).toString()}`;
-          const isActive = i + 1 === activePlayer;
-          return (
-            <StatusCard
-              key={name}
-              isActive={isActive}
-              isPlayer={isMultiPlayer}
-              label={name}
-              value={value.toString()}
-            />
-          );
-        })
+      {isMulti ? (
+        players.map(({ isActive, name, pairs }) => (
+          <StatusCard
+            key={name}
+            isActive={isActive}
+            isPlayer={isMulti}
+            label={name}
+            value={pairs.toString()}
+          />
+        ))
       ) : (
         <>
           <StatusCard label="Time" value={clock} />
-          <StatusCard label="Moves" value={moves.toString()} />
+          <StatusCard
+            label="Moves"
+            value={Math.floor(players[0].moves / 2).toString()}
+          />
         </>
       )}
     </Wrapper>

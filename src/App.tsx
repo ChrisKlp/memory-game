@@ -1,39 +1,39 @@
+import Game from 'components/Game';
 import { AnimatePresence } from 'framer-motion';
-import Game from 'Game';
 import gameOptions from 'gameOptions';
-import useStartGame from 'hooks/useStartGame';
+import useGameState from 'hooks/useGameState';
 import globalStyles from 'styles/globalStyles';
 import StartGameView from 'views/StartGameView';
 
 function App() {
   const {
-    clock,
-    setTimerState,
-    gameSetup,
-    handleNewGame,
-    handleStartGameClick,
-    handleStartGameSelect,
-    isGameStarted,
-  } = useStartGame(gameOptions);
-
+    timer,
+    endGame,
+    gameState,
+    restartGame,
+    startGame,
+    startNewSetup,
+    updateSetup,
+  } = useGameState(gameOptions);
   globalStyles();
   return (
     <AnimatePresence>
-      {!isGameStarted ? (
+      {!gameState.isStarted ? (
         <StartGameView
-          key="startGame"
+          key="startGameView"
           gameOptions={gameOptions}
-          gameSetup={gameSetup}
-          handleStartGameClick={handleStartGameClick}
-          handleStartGameSelect={handleStartGameSelect}
+          gameSetup={gameState.setup}
+          handleStartGame={startGame}
+          handleUpdateSetup={updateSetup}
         />
       ) : (
         <Game
-          key="game"
-          clock={clock}
-          gameSetup={gameSetup}
-          handleNewGame={handleNewGame}
-          setTimerState={setTimerState}
+          key={gameState.sessionId}
+          timer={timer}
+          gameState={gameState}
+          handleNewGame={startNewSetup}
+          handleRestart={restartGame}
+          handleEndGame={endGame}
         />
       )}
     </AnimatePresence>
