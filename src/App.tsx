@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import Game from 'Game';
 import gameOptions from 'gameOptions';
 import useStartGame from 'hooks/useStartGame';
@@ -17,9 +18,10 @@ function App() {
 
   globalStyles();
   return (
-    <main>
+    <AnimatePresence>
       {!isGameStarted ? (
         <StartGame
+          key="startGame"
           gameOptions={gameOptions}
           gameSetup={gameSetup}
           handleStartGameClick={handleStartGameClick}
@@ -27,13 +29,14 @@ function App() {
         />
       ) : (
         <Game
+          key="game"
+          clock={clock}
           gameSetup={gameSetup}
           handleNewGame={handleNewGame}
-          clock={clock}
           setTimerState={setTimerState}
         />
       )}
-    </main>
+    </AnimatePresence>
   );
 }
 

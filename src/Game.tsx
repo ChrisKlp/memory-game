@@ -1,4 +1,5 @@
 import Modal from 'components/Modal';
+import { motion } from 'framer-motion';
 import useGame from 'hooks/useGame';
 import { TGameSetup, TimerStates } from 'models';
 import EndGame from 'views/EndGame';
@@ -21,7 +22,11 @@ function Game({ gameSetup, handleNewGame, clock, setTimerState }: Props) {
   };
 
   return (
-    <>
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <MainGame
         activeCards={activeCards}
         cards={cards}
@@ -42,7 +47,7 @@ function Game({ gameSetup, handleNewGame, clock, setTimerState }: Props) {
           />
         </Modal>
       )}
-    </>
+    </motion.div>
   );
 }
 

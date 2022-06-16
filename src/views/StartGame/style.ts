@@ -65,11 +65,14 @@ export const Group = styled('div', {
   },
 });
 
+export const LogoWrapper = styled('div', {
+  paddingTop: '4rem',
+  justifySelf: 'center',
+});
+
 export const StyledLogo = styled(Logo, {
   display: 'block',
-  paddingTop: '4rem',
   width: '12.2rem',
-  justifySelf: 'center',
   boxSizing: 'content-box',
 
   '& path': {
