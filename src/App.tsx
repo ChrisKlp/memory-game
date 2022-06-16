@@ -3,7 +3,7 @@ import Game from 'Game';
 import gameOptions from 'gameOptions';
 import useStartGame from 'hooks/useStartGame';
 import globalStyles from 'styles/globalStyles';
-import StartGame from 'views/StartGame';
+import StartGameView from 'views/StartGameView';
 
 function App() {
   const {
@@ -20,7 +20,7 @@ function App() {
   return (
     <AnimatePresence>
       {!isGameStarted ? (
-        <StartGame
+        <StartGameView
           key="startGame"
           gameOptions={gameOptions}
           gameSetup={gameSetup}

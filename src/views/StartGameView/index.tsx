@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import Button from 'components/Button';
 import SelectButton from 'components/SelectButton';
 import Text from 'components/Text';
-import * as S from 'views/StartGame/style';
+import * as S from 'views/StartGameView/style';
 import { TGameSetup, TGameOptions } from 'models';
 import { motion } from 'framer-motion';
 
@@ -13,7 +13,7 @@ type Props = {
   handleStartGameClick: () => void;
 };
 
-function StartGame({
+function StartGameView({
   gameSetup,
   gameOptions,
   handleStartGameSelect,
@@ -79,4 +79,4 @@ function StartGame({
   );
 }
 
-export default StartGame;
+export default StartGameView;

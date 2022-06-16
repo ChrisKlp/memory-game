@@ -2,8 +2,8 @@ import Modal from 'components/Modal';
 import { motion } from 'framer-motion';
 import useGame from 'hooks/useGame';
 import { TGameSetup, TimerStates } from 'models';
-import EndGame from 'views/EndGame';
-import MainGame from 'views/MainGame';
+import EndGameView from 'views/EndGameView';
+import MainGameView from 'views/MainGameView';
 
 type Props = {
   gameSetup: TGameSetup;
@@ -27,7 +27,7 @@ function Game({ gameSetup, handleNewGame, clock, setTimerState }: Props) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <MainGame
+      <MainGameView
         activeCards={activeCards}
         cards={cards}
         clock={clock}
@@ -40,7 +40,7 @@ function Game({ gameSetup, handleNewGame, clock, setTimerState }: Props) {
       />
       {gameState.isGameOver && (
         <Modal>
-          <EndGame
+          <EndGameView
             gameState={gameState}
             handleNewGame={handleNewGame}
             handleRestart={handleRestartGame}

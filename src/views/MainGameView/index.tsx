@@ -7,7 +7,7 @@ import {
   TGameState,
   TimerStates,
 } from 'models';
-import * as S from 'views/MainGame/style';
+import * as S from 'views/MainGameView/style';
 
 type Props = {
   activeCards: TGameCard[];
@@ -21,7 +21,7 @@ type Props = {
   setTimerState: (state: TimerStates) => void;
 };
 
-function MainGame({
+function MainGameView({
   activeCards,
   cards,
   clock,
@@ -59,4 +59,4 @@ function MainGame({
   );
 }
 
-export default MainGame;
+export default MainGameView;

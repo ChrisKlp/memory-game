@@ -3,7 +3,7 @@ import ScoreList from 'components/ScoreList';
 import Text from 'components/Text';
 import { TGameState } from 'models';
 import { useMemo } from 'react';
-import * as S from 'views/EndGame/style';
+import * as S from 'views/EndGameView/style';
 
 export type TScores = {
   isWinner: boolean;
@@ -22,7 +22,7 @@ type Props = {
   handleRestart: (cb?: () => void) => void;
 };
 
-function EndGame({ gameState, handleNewGame, handleRestart }: Props) {
+function EndGameView({ gameState, handleNewGame, handleRestart }: Props) {
   const { isMultiPlayer, points, moves } = gameState;
 
   const singleScore: TSingleScore = {
@@ -85,4 +85,4 @@ function EndGame({ gameState, handleNewGame, handleRestart }: Props) {
   );
 }
 
-export default EndGame;
+export default EndGameView;
