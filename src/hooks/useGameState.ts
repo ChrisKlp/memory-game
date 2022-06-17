@@ -1,6 +1,5 @@
 import { useCallback, useReducer } from 'react';
-import { TGameState, TGameSetup, TGameOptions, Sizes, Themes } from 'models';
-import useTimer from './useTimer';
+import { Sizes, TGameOptions, TGameSetup, TGameState, Themes } from 'models';
 
 const initialSetup = (gameOptions: TGameOptions) =>
   gameOptions.reduce(
@@ -16,6 +15,7 @@ const initialState = (gameOptions: TGameOptions) => ({
   isMulti: false,
   isEnded: false,
   sessionId: Date.now(),
+  gameTime: '',
   setup: initialSetup(gameOptions),
 });
 
@@ -23,6 +23,7 @@ type TAction =
   | { type: 'SET_IS_STARTED'; payload: boolean }
   | { type: 'SET_IS_MULTI' }
   | { type: 'SET_IS_ENDED'; payload: boolean }
+  | { type: 'SET_GAME_TIME'; payload: string }
   | { type: 'RESET_SETUP'; payload: TGameOptions }
   | { type: 'RESET_SESSION' }
   | {
@@ -50,11 +51,17 @@ const reducer = (state: TGameState, action: TAction) => {
         isMulti: state.setup.players > 1,
       };
     }
+    case 'SET_GAME_TIME': {
+      return {
+        ...state,
+        gameTime: action.payload,
+      };
+    }
     case 'RESET_SETUP': {
       return initialState(action.payload);
     }
     case 'RESET_SESSION': {
-      return { ...state, sessionId: Date.now() };
+      return { ...state, sessionId: Date.now(), gameTime: '' };
     }
     case 'UPDATE_SETUP': {
       return {
@@ -72,33 +79,24 @@ const reducer = (state: TGameState, action: TAction) => {
 
 const useGameState = (gameOptions: TGameOptions) => {
   const [gameState, dispatch] = useReducer(reducer, initialState(gameOptions));
-  const { clock, startTimer, stopTimer, resetTimer } = useTimer();
 
   const startGame = useCallback(() => {
-    const { players } = gameState.setup;
     dispatch({ type: 'SET_IS_STARTED', payload: true });
     dispatch({ type: 'SET_IS_MULTI' });
-    if (players === 1) startTimer();
-  }, [dispatch, gameState.setup, startTimer]);
+  }, [dispatch]);
 
   const endGame = useCallback(() => {
     dispatch({ type: 'SET_IS_ENDED', payload: true });
-    if (!gameState.isMulti) stopTimer();
-  }, [dispatch, gameState.isMulti, stopTimer]);
+  }, [dispatch]);
 
   const restartGame = useCallback(() => {
     dispatch({ type: 'SET_IS_ENDED', payload: false });
     dispatch({ type: 'RESET_SESSION' });
-    if (!gameState.isMulti) {
-      resetTimer();
-    }
-  }, [dispatch, gameState.isMulti, resetTimer]);
+  }, [dispatch]);
 
   const startNewSetup = useCallback(() => {
     dispatch({ type: 'RESET_SETUP', payload: gameOptions });
-    resetTimer();
-    stopTimer();
-  }, [dispatch, gameOptions, resetTimer, stopTimer]);
+  }, [dispatch, gameOptions]);
 
   const updateSetup = useCallback(
     (name: string, option: number | Themes | Sizes) => {
@@ -107,18 +105,21 @@ const useGameState = (gameOptions: TGameOptions) => {
     [dispatch]
   );
 
-  return {
-    timer: {
-      clock,
-      startTimer,
-      stopTimer,
+  const setGameTime = useCallback(
+    (time: string) => {
+      dispatch({ type: 'SET_GAME_TIME', payload: time });
     },
+    [dispatch]
+  );
+
+  return {
     endGame,
     gameState,
     restartGame,
     startGame,
     startNewSetup,
     updateSetup,
+    setGameTime,
   };
 };
 

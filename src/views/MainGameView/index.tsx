@@ -16,11 +16,7 @@ type Props = {
   handleCardClick: (id: number) => void;
   handleNewGame: () => void;
   handleRestart: () => void;
-  timer: {
-    clock: string;
-    startTimer: () => void;
-    stopTimer: () => void;
-  };
+  setGameTime: (time: string) => void;
 };
 
 function MainGameView({
@@ -31,7 +27,7 @@ function MainGameView({
   handleCardClick,
   handleNewGame,
   handleRestart,
-  timer: { clock, startTimer, stopTimer },
+  setGameTime,
 }: Props) {
   const { size, theme } = gameState.setup;
 
@@ -40,8 +36,6 @@ function MainGameView({
       <S.StyledHeader
         handleNewGame={handleNewGame}
         handleRestart={handleRestart}
-        startTimer={startTimer}
-        stopTimer={stopTimer}
       />
       <S.Board small={size === Sizes.small} disabled={boardDisabled}>
         {cards.map(({ id, state, value, icon }) => (
@@ -58,8 +52,9 @@ function MainGameView({
       </S.Board>
       <S.StyledFooter
         isMulti={gameState.isMulti}
+        isEnded={gameState.isEnded}
         players={players}
-        clock={clock}
+        setGameTime={setGameTime}
       />
     </S.Container>
   );

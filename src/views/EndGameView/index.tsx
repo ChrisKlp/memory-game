@@ -6,7 +6,6 @@ import { TGameState, TPlayersState, TScores } from 'models';
 import * as S from 'views/EndGameView/style';
 
 type Props = {
-  clock: string;
   players: TPlayersState;
   gameState: TGameState;
   handleNewGame: () => void;
@@ -14,9 +13,8 @@ type Props = {
 };
 
 function EndGameView({
-  clock,
   players,
-  gameState: { isMulti },
+  gameState: { isMulti, gameTime },
   handleNewGame,
   handleRestart,
 }: Props) {
@@ -59,7 +57,7 @@ function EndGameView({
         </Text>
         <Text>{infoText}</Text>
       </S.Header>
-      <ScoreList scores={scores} isMulti={isMulti} clock={clock} />
+      <ScoreList scores={scores} isMulti={isMulti} clock={gameTime} />
       <S.ButtonsGroup>
         <S.StyledBigButton onClick={() => handleRestart()} big>
           Restart

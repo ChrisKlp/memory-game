@@ -12,11 +12,7 @@ type Props = {
   handleNewGame: () => void;
   handleRestart: () => void;
   handleEndGame: () => void;
-  timer: {
-    clock: string;
-    startTimer: () => void;
-    stopTimer: () => void;
-  };
+  setGameTime: (time: string) => void;
 };
 
 function Game({
@@ -24,7 +20,7 @@ function Game({
   handleNewGame,
   handleRestart,
   handleEndGame,
-  timer,
+  setGameTime,
 }: Props) {
   const { players, addMove, addPoint, changePlayer } = usePlayers(
     gameState.setup.players
@@ -97,16 +93,15 @@ function Game({
         boardDisabled={activeCards.length === 2}
         cards={cards}
         players={players}
-        timer={timer}
         gameState={gameState}
         handleCardClick={handleCardClick}
         handleNewGame={handleNewGame}
         handleRestart={handleRestart}
+        setGameTime={setGameTime}
       />
       {gameState.isEnded && (
         <Modal>
           <EndGameView
-            clock={timer.clock}
             players={players}
             gameState={gameState}
             handleNewGame={handleNewGame}

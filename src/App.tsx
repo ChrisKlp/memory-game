@@ -7,17 +7,17 @@ import StartGameView from 'views/StartGameView';
 
 function App() {
   const {
-    timer,
     endGame,
     gameState,
     restartGame,
     startGame,
     startNewSetup,
     updateSetup,
+    setGameTime,
   } = useGameState(gameOptions);
   globalStyles();
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
       {!gameState.isStarted ? (
         <StartGameView
           key="startGameView"
@@ -29,11 +29,11 @@ function App() {
       ) : (
         <Game
           key={gameState.sessionId}
-          timer={timer}
           gameState={gameState}
           handleNewGame={startNewSetup}
           handleRestart={restartGame}
           handleEndGame={endGame}
+          setGameTime={setGameTime}
         />
       )}
     </AnimatePresence>

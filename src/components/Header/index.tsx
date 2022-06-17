@@ -7,36 +7,20 @@ type Props = {
   className?: string;
   handleNewGame: () => void;
   handleRestart: () => void;
-  startTimer: () => void;
-  stopTimer: () => void;
 };
 
-function Header({
-  className,
-  handleNewGame,
-  handleRestart,
-  startTimer,
-  stopTimer,
-}: Props) {
+function Header({ className, handleNewGame, handleRestart }: Props) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpenMenu = () => {
-    stopTimer();
-    setIsOpen(true);
-  };
-
-  const handleCloseMenu = () => {
-    startTimer();
-    setIsOpen(false);
-  };
+  const handleTriggerMenu = () => setIsOpen(!isOpen);
 
   const handleRestartGame = () => {
-    handleCloseMenu();
+    handleTriggerMenu();
     handleRestart();
   };
 
   const handleStartNewGame = () => {
-    handleCloseMenu();
+    handleTriggerMenu();
     handleNewGame();
   };
 
@@ -45,7 +29,7 @@ function Header({
       <S.Wrapper className={className}>
         <S.StyledLogo />
         <S.Group>
-          <S.MenuButton onClick={handleOpenMenu}>Menu</S.MenuButton>
+          <S.MenuButton onClick={handleTriggerMenu}>Menu</S.MenuButton>
           <S.RestartButton onClick={handleRestart}>Restart</S.RestartButton>
           <S.SecondaryButton secondary onClick={() => handleNewGame()}>
             New Game
@@ -61,7 +45,7 @@ function Header({
             <Button big secondary onClick={handleStartNewGame}>
               New Game
             </Button>
-            <Button big secondary onClick={handleCloseMenu}>
+            <Button big secondary onClick={handleTriggerMenu}>
               Resume Game
             </Button>
           </S.MenuWrapper>

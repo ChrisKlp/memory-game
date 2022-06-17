@@ -47,6 +47,7 @@ export type TGameState = {
   isMulti: boolean;
   isEnded: boolean;
   sessionId: number;
+  gameTime: string;
 };
 
 export type TGameCard = {
@@ -63,6 +64,7 @@ export type TGameBoardState = {
 
 export type TTimer = {
   clock: string;
+  isStarted: boolean;
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;
