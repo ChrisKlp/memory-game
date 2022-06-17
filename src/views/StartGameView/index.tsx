@@ -69,7 +69,7 @@ function StartGameView({
             as={motion.button}
             big
             onClick={handleStartGame}
-            whileHover={{ scale: 1.01 }}
+            whileHover={{ scale: 1.05 }}
           >
             Start Game
           </Button>
