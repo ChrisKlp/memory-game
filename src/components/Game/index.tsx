@@ -65,10 +65,12 @@ function Game({
   ]);
 
   useEffect(() => {
-    if (cards.every((card) => card.state === CardStates.revealed)) {
+    if (
+      cards.every((card) => card.state === CardStates.revealed) &&
+      !gameState.isEnded
+    ) {
       handleEndGame();
     }
-
     if (activeCards.length < 2) return undefined;
 
     const endOfTurnTimer = setTimeout(() => {
@@ -77,7 +79,13 @@ function Game({
     return () => {
       clearInterval(endOfTurnTimer);
     };
-  }, [activeCards.length, cards, handleEndGame, handleEndOfTurn]);
+  }, [
+    activeCards.length,
+    cards,
+    gameState.isEnded,
+    handleEndGame,
+    handleEndOfTurn,
+  ]);
 
   return (
     <motion.div
