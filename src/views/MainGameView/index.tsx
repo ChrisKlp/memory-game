@@ -4,7 +4,7 @@ import {
   CardStates,
   Sizes,
   TGameCard,
-  TGameState,
+  TGameSetup,
   TPlayersState,
 } from 'models';
 import * as S from 'views/MainGameView/style';
@@ -13,7 +13,9 @@ type Props = {
   boardDisabled: boolean;
   cards: TGameCard[];
   players: TPlayersState;
-  gameState: TGameState;
+  isEnded: boolean;
+  isMulti: boolean;
+  setup: TGameSetup;
   handleCardClick: (id: number) => void;
   handleNewGame: () => void;
   handleRestart: () => void;
@@ -24,13 +26,15 @@ function MainGameView({
   boardDisabled,
   cards,
   players,
-  gameState,
+  isEnded,
+  isMulti,
+  setup,
   handleCardClick,
   handleNewGame,
   handleRestart,
   setGameTime,
 }: Props) {
-  const { size, theme } = gameState.setup;
+  const { size, theme } = setup;
 
   const list = {
     visible: {
@@ -78,8 +82,8 @@ function MainGameView({
         ))}
       </S.Board>
       <S.StyledFooter
-        isMulti={gameState.isMulti}
-        isEnded={gameState.isEnded}
+        isMulti={isMulti}
+        isEnded={isEnded}
         players={players}
         setGameTime={setGameTime}
       />

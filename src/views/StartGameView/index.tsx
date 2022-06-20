@@ -1,31 +1,26 @@
-import { useEffect } from 'react';
 import Button from 'components/Button';
 import SelectButton from 'components/SelectButton';
 import Text from 'components/Text';
-import * as S from 'views/StartGameView/style';
-import { TGameSetup, TGameOptions, Sizes, Themes } from 'models';
 import { motion } from 'framer-motion';
+import { Sizes, TGameOptions, TGameSetup, Themes } from 'models';
+import * as S from 'views/StartGameView/style';
 
 type Props = {
-  gameSetup: TGameSetup;
   gameOptions: TGameOptions;
-  handleUpdateSetup: (name: string, option: number | Themes | Sizes) => void;
-  handleStartGame: () => void;
+  setup: TGameSetup;
+  handleSelect: (
+    name: keyof TGameSetup,
+    option: number | Themes | Sizes
+  ) => void;
+  handleStart: () => void;
 };
 
 function StartGameView({
-  gameSetup,
   gameOptions,
-  handleUpdateSetup,
-  handleStartGame,
+  setup,
+  handleSelect,
+  handleStart,
 }: Props) {
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.removeAttribute('style');
-    };
-  }, []);
-
   return (
     <S.Wrapper
       as={motion.div}
@@ -55,8 +50,10 @@ function StartGameView({
                   {options.map((option) => (
                     <SelectButton
                       key={option}
-                      isActive={gameSetup[name as keyof TGameSetup] === option}
-                      onClick={() => handleUpdateSetup(name, option)}
+                      isActive={setup[name as keyof TGameSetup] === option}
+                      onClick={() =>
+                        handleSelect(name as keyof TGameSetup, option)
+                      }
                     >
                       {option}
                     </SelectButton>
@@ -68,7 +65,7 @@ function StartGameView({
           <Button
             as={motion.button}
             big
-            onClick={handleStartGame}
+            onClick={handleStart}
             whileHover={{ scale: 1.05 }}
           >
             Start Game

@@ -1,40 +1,29 @@
+import EndGame from 'components/EndGame';
 import Game from 'components/Game';
+import Modal from 'components/Modal';
+import StartGame from 'components/StartGame';
 import { AnimatePresence } from 'framer-motion';
-import gameOptions from 'gameOptions';
-import useGameState from 'hooks/useGameState';
+import useGameState from 'stores/gameState';
 import globalStyles from 'styles/globalStyles';
-import StartGameView from 'views/StartGameView';
 
 function App() {
-  const {
-    endGame,
-    gameState,
-    restartGame,
-    startGame,
-    startNewSetup,
-    updateSetup,
-    setGameTime,
-  } = useGameState(gameOptions);
+  const isStarted = useGameState((s) => s.isStarted);
+  const isEnded = useGameState((s) => s.isEnded);
+  const sessionId = useGameState((s) => s.sessionId);
   globalStyles();
   return (
     <AnimatePresence exitBeforeEnter>
-      {!gameState.isStarted ? (
-        <StartGameView
-          key="startGameView"
-          gameOptions={gameOptions}
-          gameSetup={gameState.setup}
-          handleStartGame={startGame}
-          handleUpdateSetup={updateSetup}
-        />
+      {!isStarted ? (
+        <StartGame key="startGameView" />
       ) : (
-        <Game
-          key={gameState.sessionId}
-          gameState={gameState}
-          handleNewGame={startNewSetup}
-          handleRestart={restartGame}
-          handleEndGame={endGame}
-          setGameTime={setGameTime}
-        />
+        <>
+          <Game key={sessionId} />
+          {isEnded && (
+            <Modal>
+              <EndGame />
+            </Modal>
+          )}
+        </>
       )}
     </AnimatePresence>
   );

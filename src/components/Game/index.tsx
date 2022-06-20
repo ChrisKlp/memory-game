@@ -1,51 +1,44 @@
-import { useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import useGameBoard from 'hooks/useGameBoard';
-import usePlayers from 'hooks/usePlayers';
-import { CardStates, TGameState } from 'models';
+import { CardStates } from 'models';
+import { useCallback, useEffect } from 'react';
+import useGameBoard from 'stores/gameBoard';
+import usePlayers from 'stores/gamePlayers';
+import useGameState from 'stores/gameState';
 import MainGameView from 'views/MainGameView';
-import Modal from 'components/Modal';
-import EndGameView from 'views/EndGameView';
 
-type Props = {
-  gameState: TGameState;
-  handleNewGame: () => void;
-  handleRestart: () => void;
-  handleEndGame: () => void;
-  setGameTime: (time: string) => void;
-};
-
-function Game({
-  gameState,
-  handleNewGame,
-  handleRestart,
-  handleEndGame,
-  setGameTime,
-}: Props) {
-  const { players, addMove, addPoint, changePlayer } = usePlayers(
-    gameState.setup.players
-  );
+function Game() {
+  const { players, addMove, addPoint, changePlayer } = usePlayers();
   const {
-    gameBoard: { activeCards, cards },
+    cards,
+    activeCards,
     setCardActive,
     setCardsHidden,
     setCardsRevealed,
     resetActiveCards,
-  } = useGameBoard(gameState.setup.size);
+  } = useGameBoard();
+  const {
+    isMulti,
+    isEnded,
+    setup,
+    restartGame,
+    startNewGame,
+    endGame,
+    setGameTime,
+  } = useGameState();
 
   const handleCardClick = (id: number) => {
     setCardActive(id);
-    if (!gameState.isMulti) addMove();
+    if (!isMulti) addMove();
   };
 
   const handleEndOfTurn = useCallback(() => {
     const [firstCard, secondCard] = activeCards;
 
     if (firstCard.value === secondCard.value) {
-      if (gameState.isMulti) addPoint();
+      if (isMulti) addPoint();
       setCardsRevealed();
     } else {
-      if (gameState.isMulti) changePlayer();
+      if (isMulti) changePlayer();
       setCardsHidden();
     }
 
@@ -54,18 +47,15 @@ function Game({
     activeCards,
     addPoint,
     changePlayer,
-    gameState.isMulti,
+    isMulti,
     resetActiveCards,
     setCardsHidden,
     setCardsRevealed,
   ]);
 
   useEffect(() => {
-    if (
-      cards.every((card) => card.state === CardStates.revealed) &&
-      !gameState.isEnded
-    ) {
-      handleEndGame();
+    if (cards.every((card) => card.state === CardStates.revealed) && !isEnded) {
+      endGame();
     }
     if (activeCards.length < 2) return undefined;
 
@@ -75,13 +65,7 @@ function Game({
     return () => {
       clearInterval(endOfTurnTimer);
     };
-  }, [
-    activeCards.length,
-    cards,
-    gameState.isEnded,
-    handleEndGame,
-    handleEndOfTurn,
-  ]);
+  }, [activeCards.length, cards, isEnded, handleEndOfTurn, endGame]);
 
   return (
     <motion.div
@@ -93,22 +77,14 @@ function Game({
         boardDisabled={activeCards.length === 2}
         cards={cards}
         players={players}
-        gameState={gameState}
+        isEnded={isEnded}
+        isMulti={isMulti}
+        setup={setup}
         handleCardClick={handleCardClick}
-        handleNewGame={handleNewGame}
-        handleRestart={handleRestart}
+        handleNewGame={startNewGame}
+        handleRestart={restartGame}
         setGameTime={setGameTime}
       />
-      {gameState.isEnded && (
-        <Modal>
-          <EndGameView
-            players={players}
-            gameState={gameState}
-            handleNewGame={handleNewGame}
-            handleRestart={handleRestart}
-          />
-        </Modal>
-      )}
     </motion.div>
   );
 }
