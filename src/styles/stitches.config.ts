@@ -43,5 +43,6 @@ export const {
     md: '(min-width: 768px)',
     lg: '(min-width: 1050px)',
     xl: '(min-width: 1440px)',
+    hoverNone: '(hover: none)',
   },
 });

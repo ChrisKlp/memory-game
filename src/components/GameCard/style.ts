@@ -42,6 +42,12 @@ export const Wrapper = styled('button', {
           backgroundColor: '$blue500',
         },
 
+        '@hoverNone': {
+          '&:hover': {
+            backgroundColor: '$blue800;',
+          },
+        },
+
         [`& ${Value}`]: {
           display: 'none',
         },

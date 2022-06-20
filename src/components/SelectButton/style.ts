@@ -9,6 +9,12 @@ const SelectButtonStyled = styled(Button, {
     backgroundColor: '$blue500;',
   },
 
+  '@hoverNone': {
+    '&:hover': {
+      backgroundColor: '$blue800;',
+    },
+  },
+
   '@md': {
     padding: '1.1rem 1.85rem 0.9rem',
     fontSize: '2.6rem',
