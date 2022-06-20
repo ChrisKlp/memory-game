@@ -1,6 +1,7 @@
 /* eslint-disable no-debugger */
 import ScoreList from 'components/ScoreList';
 import Text from 'components/Text';
+import { motion } from 'framer-motion';
 import { TScores } from 'models';
 import * as S from 'views/EndGameView/style';
 
@@ -24,7 +25,7 @@ function EndGameView({
   handleNewGame,
 }: Props) {
   return (
-    <S.Wrapper>
+    <S.Wrapper as={motion.div} initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
       <S.Header>
         <Text as="h1" size="h1" color="dark">
           {heading}

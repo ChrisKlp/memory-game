@@ -1,6 +1,7 @@
 import Button from 'components/Button';
 import * as S from 'components/Header/style';
 import Modal from 'components/Modal';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 
 type Props = {
@@ -36,21 +37,27 @@ function Header({ className, handleNewGame, handleRestart }: Props) {
           </S.SecondaryButton>
         </S.Group>
       </S.Wrapper>
-      {isOpen && (
-        <Modal mobile>
-          <S.MenuWrapper>
-            <Button big onClick={handleRestartGame}>
-              Restart
-            </Button>
-            <Button big secondary onClick={handleStartNewGame}>
-              New Game
-            </Button>
-            <Button big secondary onClick={handleTriggerMenu}>
-              Resume Game
-            </Button>
-          </S.MenuWrapper>
-        </Modal>
-      )}
+      <AnimatePresence exitBeforeEnter>
+        {isOpen && (
+          <Modal mobile>
+            <S.MenuWrapper
+              as={motion.div}
+              initial={{ scale: 0.8 }}
+              animate={{ scale: 1 }}
+            >
+              <Button big onClick={handleRestartGame}>
+                Restart
+              </Button>
+              <Button big secondary onClick={handleStartNewGame}>
+                New Game
+              </Button>
+              <Button big secondary onClick={handleTriggerMenu}>
+                Resume Game
+              </Button>
+            </S.MenuWrapper>
+          </Modal>
+        )}
+      </AnimatePresence>
     </>
   );
 }
