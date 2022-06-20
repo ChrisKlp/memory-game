@@ -41,6 +41,14 @@ export type TPlayerState = {
 
 export type TPlayersState = TPlayerState[];
 
+export type TPlayersStore = {
+  players: TPlayersState;
+  createPlayersStore: (length: number) => void;
+  addMove: () => void;
+  addPoint: () => void;
+  changePlayer: () => void;
+};
+
 export type TGameState = {
   setup: TGameSetup;
   isStarted: boolean;
@@ -48,6 +56,11 @@ export type TGameState = {
   isEnded: boolean;
   sessionId: number;
   gameTime: string;
+  startGame: (gameSetup: TGameSetup) => void;
+  endGame: () => void;
+  restartGame: () => void;
+  startNewGame: () => void;
+  setGameTime: (time: string) => void;
 };
 
 export type TGameCard = {
@@ -57,9 +70,14 @@ export type TGameCard = {
   state: CardStates;
 };
 
-export type TGameBoardState = {
+export type TGameBoardStore = {
   cards: TGameCard[];
   activeCards: TGameCard[];
+  createGameCards: (amount: number) => void;
+  setCardActive: (id: number) => void;
+  setCardsRevealed: () => void;
+  setCardsHidden: () => void;
+  resetActiveCards: () => void;
 };
 
 export type TTimer = {

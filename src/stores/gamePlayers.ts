@@ -8,6 +8,7 @@ const usePlayers = create<TPlayersStore>()(
   devtools(
     immer((set, get) => ({
       players: [] as TPlayersState,
+
       createPlayersStore: (length: number) =>
         set(
           {
@@ -20,18 +21,21 @@ const usePlayers = create<TPlayersStore>()(
           },
           true
         ),
+
       addMove: () => {
         const activeIdx = get().players.findIndex((player) => player.isActive);
         return set((state) => {
           state.players[activeIdx].moves += 1;
         });
       },
+
       addPoint: () => {
         const activeIdx = get().players.findIndex((player) => player.isActive);
         return set((state) => {
           state.players[activeIdx].pairs += 1;
         });
       },
+
       changePlayer: () => {
         const lastActiveIdx = get().players.findIndex(
           (player) => player.isActive
