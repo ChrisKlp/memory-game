@@ -1,3 +1,4 @@
+import useRestartGame from 'hooks/useRestartGame';
 import { TScores } from 'models';
 import { useMemo } from 'react';
 import usePlayers from 'stores/gamePlayers';
@@ -7,9 +8,9 @@ import EndGameView from 'views/EndGameView';
 function EndGame() {
   const isMulti = useGameState((s) => s.isMulti);
   const gameTime = useGameState((s) => s.gameTime);
-  const restartGame = useGameState((s) => s.restartGame);
   const startNewGame = useGameState((s) => s.startNewGame);
   const players = usePlayers((s) => s.players);
+  const handleRestartGame = useRestartGame();
 
   const scores = useMemo<TScores>(() => {
     const topScore = [...players].sort((a, b) => b.pairs - a.pairs)[0].pairs;
@@ -50,7 +51,7 @@ function EndGame() {
       scores={scores}
       isMulti={isMulti}
       gameTime={gameTime}
-      handleRestart={restartGame}
+      handleRestart={handleRestartGame}
       handleNewGame={startNewGame}
     />
   );

@@ -2,18 +2,14 @@ import create from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { TGameSetup, TGameState } from 'models';
 
-const initialState = () => ({
-  isStarted: false,
-  isMulti: false,
-  isEnded: false,
-  sessionId: Date.now(),
-  gameTime: '',
-  setup: {} as TGameSetup,
-});
-
 const useGameState = create<TGameState>()(
   devtools((set) => ({
-    ...initialState(),
+    isStarted: false,
+    isMulti: false,
+    isEnded: false,
+    sessionId: 0,
+    gameTime: '',
+    setup: {} as TGameSetup,
 
     startGame: (gameSetup: TGameSetup) =>
       set(
@@ -21,6 +17,9 @@ const useGameState = create<TGameState>()(
           isStarted: true,
           isMulti: gameSetup.players > 1,
           setup: gameSetup,
+          sessionId: Date.now(),
+          gameTime: '',
+          isEnded: false,
         },
         false,
         'Start Game'
@@ -31,7 +30,7 @@ const useGameState = create<TGameState>()(
     restartGame: () =>
       set({ isEnded: false, sessionId: Date.now() }, false, 'Restart Game'),
 
-    startNewGame: () => set(initialState(), true, 'Start New Game'),
+    startNewGame: () => set({ isStarted: false }, false, 'Start New Game'),
 
     setGameTime: (time: string) =>
       set({ gameTime: time }, false, 'Set Game Time'),

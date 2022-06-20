@@ -53,7 +53,11 @@ const useGameBoard = create<TGameBoardStore>()(
       activeCards: [] as TGameCard[],
 
       createGameCards: (amount: number) =>
-        set({ cards: createGameCards(amount) }, true),
+        set(
+          { cards: createGameCards(amount), activeCards: [] },
+          false,
+          'Create Game Cards'
+        ),
 
       setCardActive: (id: number) => {
         const cardIdx = get().cards.findIndex((card) => card.id === id);
@@ -70,6 +74,7 @@ const useGameBoard = create<TGameBoardStore>()(
               ? { ...card, state: CardStates.revealed }
               : card
           ),
+          activeCards: [],
         }));
       },
 
@@ -80,10 +85,9 @@ const useGameBoard = create<TGameBoardStore>()(
               ? { ...card, state: CardStates.hidden }
               : card
           ),
+          activeCards: [],
         }));
       },
-
-      resetActiveCards: () => set({ activeCards: [] }, true),
     }))
   )
 );

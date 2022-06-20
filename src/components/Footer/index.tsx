@@ -3,29 +3,38 @@ import Wrapper from 'components/Footer/style';
 import StatusCard from 'components/StatusCard';
 import useTimer from 'hooks/useTimer';
 import { TPlayersState } from 'models';
+import useGameState from 'stores/gameState';
 
 type Props = {
   isMulti: boolean;
   isEnded: boolean;
   className?: string;
   players: TPlayersState;
-  setGameTime: (time: string) => void;
 };
 
-function Footer({ isMulti, isEnded, players, className, setGameTime }: Props) {
-  const { clock, isStarted, startTimer, stopTimer } = useTimer();
+function Footer({ isMulti, isEnded, players, className }: Props) {
+  const { clock, isTimeStarted, startTimer, stopTimer } = useTimer();
+  const setGameTime = useGameState((s) => s.setGameTime);
 
   useEffect(() => {
     if (isMulti) return;
-    if (!isStarted && !isEnded) {
+    if (!isTimeStarted && !isEnded) {
       startTimer();
     }
 
-    if (isStarted && isEnded) {
+    if (isTimeStarted && isEnded) {
       stopTimer();
       setGameTime(clock);
     }
-  }, [clock, isEnded, isMulti, isStarted, setGameTime, startTimer, stopTimer]);
+  }, [
+    clock,
+    isEnded,
+    isMulti,
+    isTimeStarted,
+    setGameTime,
+    startTimer,
+    stopTimer,
+  ]);
 
   return (
     <Wrapper className={className}>

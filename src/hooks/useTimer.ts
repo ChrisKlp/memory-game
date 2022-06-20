@@ -3,17 +3,17 @@ import { useEffect, useState } from 'react';
 
 const useTimer = (): TTimer => {
   const [time, setTime] = useState(0);
-  const [isStarted, setIsStarted] = useState(false);
+  const [isTimeStarted, setIsTimeStarted] = useState(false);
 
   useEffect(() => {
-    if (!isStarted) return undefined;
+    if (!isTimeStarted) return undefined;
     const interval = setTimeout(() => {
       setTime(time + 1);
     }, 1000);
     return () => {
       clearInterval(interval);
     };
-  }, [isStarted, time]);
+  }, [isTimeStarted, time]);
 
   const formatTime = (): string => {
     const minutes = Math.floor(time / 60)
@@ -25,11 +25,17 @@ const useTimer = (): TTimer => {
     return `${minutes}:${seconds}`;
   };
 
-  const startTimer = () => setIsStarted(true);
-  const stopTimer = () => setIsStarted(false);
+  const startTimer = () => setIsTimeStarted(true);
+  const stopTimer = () => setIsTimeStarted(false);
   const resetTimer = () => setTime(0);
 
-  return { clock: formatTime(), startTimer, stopTimer, resetTimer, isStarted };
+  return {
+    clock: formatTime(),
+    startTimer,
+    stopTimer,
+    resetTimer,
+    isTimeStarted,
+  };
 };
 
 export default useTimer;

@@ -17,7 +17,7 @@ const initialSetup = () =>
 
 function StartGame() {
   const startGame = useGameState((s) => s.startGame);
-  const createPlayersStore = usePlayers((s) => s.createPlayersStore);
+  const createPlayers = usePlayers((s) => s.createPlayers);
   const createGameCards = useGameBoard((s) => s.createGameCards);
   const [setup, setSetup] = useState(initialSetup());
 
@@ -35,7 +35,7 @@ function StartGame() {
 
   const handleStart = () => {
     startGame(setup);
-    createPlayersStore(setup.players);
+    createPlayers(setup.players);
     createGameCards(setup.size === Sizes.big ? 36 : 16);
   };
 

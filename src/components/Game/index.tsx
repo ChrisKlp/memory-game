@@ -1,12 +1,24 @@
 import { motion } from 'framer-motion';
+import useRestartGame from 'hooks/useRestartGame';
 import { CardStates } from 'models';
 import { useCallback, useEffect } from 'react';
 import useGameBoard from 'stores/gameBoard';
 import usePlayers from 'stores/gamePlayers';
 import useGameState from 'stores/gameState';
 import MainGameView from 'views/MainGameView';
+import shallow from 'zustand/shallow';
 
 function Game() {
+  const { isMulti, isEnded, setup, startNewGame, endGame } = useGameState(
+    (s) => ({
+      isMulti: s.isMulti,
+      isEnded: s.isEnded,
+      setup: s.setup,
+      startNewGame: s.startNewGame,
+      endGame: s.endGame,
+    }),
+    shallow
+  );
   const { players, addMove, addPoint, changePlayer } = usePlayers();
   const {
     cards,
@@ -14,17 +26,8 @@ function Game() {
     setCardActive,
     setCardsHidden,
     setCardsRevealed,
-    resetActiveCards,
   } = useGameBoard();
-  const {
-    isMulti,
-    isEnded,
-    setup,
-    restartGame,
-    startNewGame,
-    endGame,
-    setGameTime,
-  } = useGameState();
+  const handleRestartGame = useRestartGame();
 
   const handleCardClick = (id: number) => {
     setCardActive(id);
@@ -41,14 +44,11 @@ function Game() {
       if (isMulti) changePlayer();
       setCardsHidden();
     }
-
-    resetActiveCards();
   }, [
     activeCards,
     addPoint,
     changePlayer,
     isMulti,
-    resetActiveCards,
     setCardsHidden,
     setCardsRevealed,
   ]);
@@ -82,8 +82,7 @@ function Game() {
         setup={setup}
         handleCardClick={handleCardClick}
         handleNewGame={startNewGame}
-        handleRestart={restartGame}
-        setGameTime={setGameTime}
+        handleRestart={handleRestartGame}
       />
     </motion.div>
   );

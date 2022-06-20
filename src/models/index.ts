@@ -43,7 +43,7 @@ export type TPlayersState = TPlayerState[];
 
 export type TPlayersStore = {
   players: TPlayersState;
-  createPlayersStore: (length: number) => void;
+  createPlayers: (length: number) => void;
   addMove: () => void;
   addPoint: () => void;
   changePlayer: () => void;
@@ -77,12 +77,11 @@ export type TGameBoardStore = {
   setCardActive: (id: number) => void;
   setCardsRevealed: () => void;
   setCardsHidden: () => void;
-  resetActiveCards: () => void;
 };
 
 export type TTimer = {
   clock: string;
-  isStarted: boolean;
+  isTimeStarted: boolean;
   startTimer: () => void;
   stopTimer: () => void;
   resetTimer: () => void;

@@ -9,7 +9,7 @@ const usePlayers = create<TPlayersStore>()(
     immer((set, get) => ({
       players: [] as TPlayersState,
 
-      createPlayersStore: (length: number) =>
+      createPlayers: (length: number) =>
         set(
           {
             players: new Array(length).fill(null).map((_, i) => ({
@@ -19,7 +19,8 @@ const usePlayers = create<TPlayersStore>()(
               isActive: i === 0,
             })),
           },
-          true
+          false,
+          'Create Players'
         ),
 
       addMove: () => {

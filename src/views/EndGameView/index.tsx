@@ -33,10 +33,10 @@ function EndGameView({
       </S.Header>
       <ScoreList scores={scores} isMulti={isMulti} clock={gameTime} />
       <S.ButtonsGroup>
-        <S.StyledBigButton onClick={() => handleRestart()} big>
+        <S.StyledBigButton onClick={handleRestart} big>
           Restart
         </S.StyledBigButton>
-        <S.StyledBigButton onClick={() => handleNewGame()} big secondary>
+        <S.StyledBigButton onClick={handleNewGame} big secondary>
           Setup New Game
         </S.StyledBigButton>
       </S.ButtonsGroup>

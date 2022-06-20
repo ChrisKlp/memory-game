@@ -19,7 +19,6 @@ type Props = {
   handleCardClick: (id: number) => void;
   handleNewGame: () => void;
   handleRestart: () => void;
-  setGameTime: (time: string) => void;
 };
 
 function MainGameView({
@@ -32,26 +31,8 @@ function MainGameView({
   handleCardClick,
   handleNewGame,
   handleRestart,
-  setGameTime,
 }: Props) {
   const { size, theme } = setup;
-
-  const list = {
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.01,
-      },
-    },
-    hidden: {
-      opacity: 0,
-    },
-  };
-
-  const item = {
-    hidden: { opacity: 0, scale: 0.5 },
-    visible: { opacity: 1, scale: 1 },
-  };
 
   return (
     <S.Container>
@@ -63,12 +44,12 @@ function MainGameView({
         as={motion.div}
         small={size === Sizes.small}
         disabled={boardDisabled}
-        variants={list}
+        variants={S.boardAnimVariants}
         animate="visible"
         initial="hidden"
       >
         {cards.map(({ id, state, value, icon }) => (
-          <motion.div key={id} variants={item}>
+          <motion.div key={id} variants={S.cardAnimVariants}>
             <GameCard
               key={id}
               theme={theme}
@@ -81,12 +62,7 @@ function MainGameView({
           </motion.div>
         ))}
       </S.Board>
-      <S.StyledFooter
-        isMulti={isMulti}
-        isEnded={isEnded}
-        players={players}
-        setGameTime={setGameTime}
-      />
+      <S.StyledFooter isMulti={isMulti} isEnded={isEnded} players={players} />
     </S.Container>
   );
 }

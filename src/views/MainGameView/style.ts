@@ -44,3 +44,20 @@ export const Board = styled('div', {
     },
   },
 });
+
+export const boardAnimVariants = {
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.01,
+    },
+  },
+  hidden: {
+    opacity: 0,
+  },
+};
+
+export const cardAnimVariants = {
+  hidden: { opacity: 0, scale: 0.5 },
+  visible: { opacity: 1, scale: 1 },
+};
