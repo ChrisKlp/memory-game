@@ -31,11 +31,12 @@ function Game() {
 
   const handleCardClick = (id: number) => {
     setCardActive(id);
-    if (!isMulti) addMove();
   };
 
   const handleEndOfTurn = useCallback(() => {
     const [firstCard, secondCard] = activeCards;
+
+    if (!isMulti) addMove();
 
     if (firstCard.value === secondCard.value) {
       if (isMulti) addPoint();
@@ -46,6 +47,7 @@ function Game() {
     }
   }, [
     activeCards,
+    addMove,
     addPoint,
     changePlayer,
     isMulti,

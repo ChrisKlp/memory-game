@@ -51,10 +51,7 @@ function Footer({ isMulti, isEnded, players, className }: Props) {
       ) : (
         <>
           <StatusCard label="Time" value={clock} />
-          <StatusCard
-            label="Moves"
-            value={Math.floor(players[0].moves / 2).toString()}
-          />
+          <StatusCard label="Moves" value={players[0].moves.toString()} />
         </>
       )}
     </Wrapper>
