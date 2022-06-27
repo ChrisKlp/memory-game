@@ -46,9 +46,21 @@ Cypress.Commands.add('findCardPair', (value) => {
   return cy.get('[data-cy=gameCard]').filter(`:contains("${value}")`);
 });
 
+Cypress.Commands.add('findIconCardPair', (value) => {
+  return cy.get('[data-cy=gameCard]').find(`.${value}`).parent();
+});
+
 Cypress.Commands.add('revealCardPair', (value) => {
   return cy
     .get('[data-cy=gameCard]')
     .filter(`:contains("${value}")`)
+    .click({ multiple: true });
+});
+
+Cypress.Commands.add('revealIconCardPair', (value) => {
+  return cy
+    .get('[data-cy=gameCard]')
+    .find(`.${value}`)
+    .parent()
     .click({ multiple: true });
 });
