@@ -16,6 +16,7 @@ function GameCard({ value, theme, icon, state, big, onClick }: Props) {
   return (
     <S.Wrapper
       as={motion.button}
+      data-cy="gameCard"
       state={state}
       big={big}
       onClick={onClick}
